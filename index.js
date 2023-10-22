@@ -4,6 +4,8 @@ const setup = document.querySelector('.setup-page');
 const gridCreated = localStorage.getItem('gridCreated');
 let timerStarted = false; // Variable to track if the timer has started
 let flippedCards = [];
+let movesCount = 0; // Initialize the moves count
+
 // const shufflefun = ()=>{
 // };
 
@@ -50,12 +52,15 @@ const flipCard = () => {
                     const [card1, card2] = flippedCards;
                     const number1 = card1.querySelector('h2').innerText;
                     const number2 = card2.querySelector('h2').innerText;
-
+                    const moves = document.getElementById('move-count')
+                   
+                    movesCount++; // Increment the moves count
+                    moves.innerText = movesCount;
                     if (number1 === number2) {
                         // Matching pair, keep cards flipped
                         flippedCards = [];
-                        card1.querySelector('.card-front').style.background = 'red';
-                        card2.querySelector('.card-front').style.background = 'red';
+                        card1.querySelector('.card-front').style.background = '#FDA214';
+                        card2.querySelector('.card-front').style.background = '#FDA214';
                         setTimeout(() => {
                             clickable = true; // Enable clicks after a short delay
                         }, 1000);
@@ -110,7 +115,7 @@ function createCards(numPairs) {
             </div>
             <div class="count" id="moves">
                 <h3>moves</h3>
-                <p>0</p>
+                <p id ="move-count">0</p>
         </div>`
         
         status.innerHTML = statusCount;
