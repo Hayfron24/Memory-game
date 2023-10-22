@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="stylesheet" href="4x4grid.css">
+  <link rel="stylesheet" href="style.css"> 
+  <title>Frontend Mentor | Memory game</title>
+</head>
+<body>
+  <div class="setup-page">
+    <div class="logo-setup">
+      <p>memory</p>
+    </div>
+    <div class="panel">
+      <div class="theme-selection">
+        <p>Select Theme</p>
+        <div class="themes">
+          <input type="radio" name="theme" value="numbers" id="theme-numbers" class="theme-btn">
+          <label for="theme-numbers" class="btn theme-name">Numbers</label>
+
+          <input type="radio" name="theme" value="icons" id="theme-icons" class="theme-btn">
+          <label for="theme-icons" class="btn theme-name">Icons</label>
+
+        </div>
+      </div>
+      <div class="player-type">
+        <p>Number of Players</p>
+        <div class="players-number">
+          <input type="radio" value="1" name="players" id="1-player" class="number-btn">
+          <label for="1-player" class="btn player">1</label>
+
+          <input type="radio" value="2" name="players" id="2-players" class="number-btn">
+          <label for="2-players" class="btn player">2</label>
+
+          <input type="radio" value="3" name="players" id="3-players" class="number-btn">
+          <label for="3-players" class="btn player">3</label>
+
+          <input type="radio" value="4" name="players" id="4-players" class="number-btn">
+          <label for="4-players" class="btn player">4</label>
+        </div>
+      </div>
+      <div class="grid-type">
+        <p>Grid Size</p>
+        <div class="grid-select">
+          <input type="radio" name="grid" id="4x4-grid">
+        <label for="4x4-grid" class="btn grid">4x4</label>
+        
+        <input type="radio" name="grid" id="6x6-grid">
+        <label for="6x6-grid" class="btn grid">6x6</label>
+        </div>
+      </div>
+      <button type="submit" id="start" >Start Game</button>
+    </div>
+  </div>
+  
+  <script src="index.js"></script>
+</body>
+</html>
+

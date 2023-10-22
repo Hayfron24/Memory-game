@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+    background: #fcfcfc;
+}
+.page-4x4{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.header{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+.logo{
+    color: #152938;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+#restart,#new-game{
+    border: none;
+    border-radius: 1.625rem;
+    background: #FDA214;
+    width: 7.9375rem;
+    height: 3.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #fcfcfc;
+    margin: .5rem;
+    transition: .3s ease-in;
+}
+#restart:hover{
+    background: #FFB84A;
+}
+#new-game{
+    background: #DFE7EC;
+    width: 9.3125rem;
+    height: 3.25rem;
+    color: #304859;
+    transition: .3s ease-in;
+}
+#new-game:hover{
+    background: #6395B8;
+}
+.grid-container{
+    width: 33.25rem;
+    height: 33.25rem;
+    display: grid;
+    grid-template-columns:repeat(4, 1fr) ;
+    grid-template-rows: repeat(4,1fr);
+    margin-top: 5rem;
+}
+.grid-item {
+    width: 7.375rem;
+    height: 7.375rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-front, .card-back {
+    background: #304859;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.5s;
+}
+.card-back:hover{
+    background: #6395B8;
+    transition: .3s ease-in;
+}
+.card-front{
+    background: #BCCED9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+
+/* Initially hide the front of the card */
+.card[data-flipped="false"] .card-front {
+    transform: rotateY(180deg);
+}
+
+.status{
+    width: 33.25rem;
+    display: flex;
+    justify-content: space-between;
+}
+.count {
+    width: 15.9375rem;
+    height: 4.5rem;
+    background: #DFE7EC;
+    border-radius: 0.625rem;
+    margin-top: 4rem;
+}
+.count h3{
+    color: #7191A5;
+    font-size: 1.125rem;
+    font-weight: 700;
+
+}
+.count p,label{
+    color: #304859;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+#time,#moves{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+}

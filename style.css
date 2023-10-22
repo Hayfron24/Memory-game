@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+/* Hidden visibility */
+body.new-color{
+    background: #FCFCFC;
+}
+.setup-page.display{
+    display: none;
+}
+
+/* end of HV */
+
+body{
+    width: 100%;
+    height: 100vh;
+    background: #152938;
+}
+.setup-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.logo-setup{
+    color: #FCFCFC ;
+    font-size: 2.7rem;
+    font-weight: 600;
+    margin-bottom: 4rem;
+}
+.panel{
+    width: 100%;
+    max-width: 40.875rem;
+    height: 100vh;
+    max-height: 34.9375rem;
+    border-radius: 1.25rem;
+    background: #FCFCFC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.panel p{
+    color: #7191A5;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.theme-selection,.player-type,.grid-type{
+    width: 80%;
+    margin-top: 2.7rem;
+}
+.themes,.players-number,.grid-select{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+input[type ="radio"]{
+    display: none;
+}
+input[type = "radio"]:checked +.btn{
+    background: #304859;
+}
+
+.btn{
+    display: inline-block;
+    font-size: 1.625rem;
+    padding-top: 0.6rem;
+    text-align: center;
+    height: 3.25rem;
+    color: #FCFCFC;
+    font-weight: 700;
+    border-radius: 1.625rem;
+    background: #BCCED9;
+    margin-top: 1rem;
+    transition: 0.3s ease-in;
+}
+.btn:hover{
+    background: #6395B8;
+}
+.theme-name,.grid{
+    width: 16rem;
+}
+.player{
+    width: 7.4375rem;
+}
+button{
+    width: 80%;
+    height: 4.375rem;
+    border: none;
+    border-radius: 3rem;
+    margin-top: 2rem;
+    background: #FDA214;
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: #FCFCFC;
+    transition: 0.4s ease-in-out;
+}
+button:hover{
+    background: #FFB84A;
+}
+
+
