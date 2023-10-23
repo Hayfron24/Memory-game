@@ -5,13 +5,14 @@ const gridCreated = localStorage.getItem('gridCreated');
 let timerStarted = false; // Variable to track if the timer has started
 let flippedCards = [];
 let movesCount = 0; // Initialize the moves count
+const value4x4 = document.getElementById('4x4-grid').value;
+const value6x6 = document.getElementById('6x6-grid').value;
 
 // const shufflefun = ()=>{
 // };
 
 
 const setupFor4Grid = () =>{
-
     // const checked = document.querySelectorAll('input[type = "radio"]:checked')
     startGame.addEventListener('click', ()=>{
     
@@ -25,9 +26,17 @@ const setupFor4Grid = () =>{
             console.log('All conditions are true');
             body.classList.add('new-color');
             setup.classList.add('display');
-            createCards(8);
-            location.reload();
+            
+            createCards(value4x4);
+            newGame();
+            // location.reload();
         }else if(isNumbers && isOnePlayer && is6x6Grid){
+            // alert('Coming Soon!');
+            body.classList.add('new-color');
+            setup.classList.add('display');
+            createCards(value6x6);
+            newGame();
+        }else{
             alert('Coming Soon!');
         }
     });
@@ -122,33 +131,94 @@ function createCards(numPairs) {
 
     const numbers = generateRandomPairs(numPairs);
 
+    if(numPairs === value4x4){
 
-    for (let i = 0; i < numPairs * 2; i++) {
-        const gridItem = document.createElement('div');
-        gridItem.classList.add('grid-item');
+        for (let i = 0; i < numPairs * 2; i++) {
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item');
+    
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.setAttribute('data-flipped', 'false');
+    
+            const cardBack = document.createElement('div');
+            cardBack.classList.add('card-back');
+    
+            const cardFront = document.createElement('div');
+            cardFront.classList.add('card-front');
+    
+            const cardNumber = document.createElement('h2');
+            cardNumber.textContent = numbers[i];
+            cardFront.appendChild(cardNumber);
+            body.append(page4x4);
+            page4x4.append(gridContainer);
+            page4x4.append(status)
+            card.appendChild(cardBack);
+            card.appendChild(cardFront);
+            gridItem.appendChild(card);
+            gridContainer.appendChild(gridItem);
+        }
+        flipCard();
 
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.setAttribute('data-flipped', 'false');
+    }else if(numPairs === value6x6){
+        
+        for (let i = 0; i < numPairs * 2; i++) {
+            gridContainer.classList.add('grid-container-6x6');
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item');
+            gridItem.classList.add('grid-item-6x6');
 
-        const cardBack = document.createElement('div');
-        cardBack.classList.add('card-back');
-
-        const cardFront = document.createElement('div');
-        cardFront.classList.add('card-front');
-
-        const cardNumber = document.createElement('h2');
-        cardNumber.textContent = numbers[i];
-        cardFront.appendChild(cardNumber);
-        body.append(page4x4);
-        page4x4.append(gridContainer);
-        page4x4.append(status)
-        card.appendChild(cardBack);
-        card.appendChild(cardFront);
-        gridItem.appendChild(card);
-        gridContainer.appendChild(gridItem);
+    
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.setAttribute('data-flipped', 'false');
+    
+            const cardBack = document.createElement('div');
+            cardBack.classList.add('card-back');
+    
+            const cardFront = document.createElement('div');
+            cardFront.classList.add('card-front');
+    
+            const cardNumber = document.createElement('h2');
+            cardNumber.textContent = numbers[i];
+            cardFront.appendChild(cardNumber);
+            body.append(page4x4);
+            page4x4.append(gridContainer);
+            page4x4.append(status)
+            card.appendChild(cardBack);
+            card.appendChild(cardFront);
+            gridItem.appendChild(card);
+            gridContainer.appendChild(gridItem);
+        }
+        flipCard();
+    }else{
+        for (let i = 0; i < numPairs * 2; i++) {
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item');
+    
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.setAttribute('data-flipped', 'false');
+    
+            const cardBack = document.createElement('div');
+            cardBack.classList.add('card-back');
+    
+            const cardFront = document.createElement('div');
+            cardFront.classList.add('card-front');
+    
+            const cardNumber = document.createElement('h2');
+            cardNumber.textContent = numbers[i];
+            cardFront.appendChild(cardNumber);
+            body.append(page4x4);
+            page4x4.append(gridContainer);
+            page4x4.append(status)
+            card.appendChild(cardBack);
+            card.appendChild(cardFront);
+            gridItem.appendChild(card);
+            gridContainer.appendChild(gridItem);
+        }
+        flipCard();
     }
-    flipCard();
     localStorage.setItem('gridCreated', 'true');
 }
 
@@ -204,14 +274,13 @@ function startTimer() {
 document.addEventListener('DOMContentLoaded',()=>{
     setupFor4Grid();
 
-    if (gridCreated === 'true') {
-        // The grid has been created, so show it
-        console.log('All conditions are true');
-        body.classList.add('new-color');
-        setup.classList.add('display');
-        createCards(8);
-        
-    } 
+    // if (gridCreated === 'true') {
+    //     // The grid has been created, so show it
+    //     console.log('All conditions are true');
+    //     body.classList.add('new-color');
+    //     setup.classList.add('display');
+    //     createCards(8); 
+    // } 
     newGame();
     
     // Replace 16 with the desired number of cards
@@ -220,6 +289,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
 // make the card numbers random and pairs(done)
-// start the timer when i click on a card
-// 2 click = 1 move
-// change color when match is found.
+// start the timer when i click on a card(done)
+// 2 click = 1 move(done)
+// change color when match is found(done).
