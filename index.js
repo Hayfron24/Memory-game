@@ -91,11 +91,33 @@ const flipCard = () => {
                     startTimer();
                     timerStarted = true;
                 }
+                if (areAllCardsFlipped()) {
+                    clearInterval(timeInterval); // Stop the timer if all cards are flipped
+                }
             }
         });
     });
 }
+// This function runs and returns true if all cards are flipped
+function areAllCardsFlipped() {
+    const cards = document.querySelectorAll('.card');
+    for (const card of cards) {
+        if (card.getAttribute('data-flipped') !== 'true') {
+            return false; // If any card is not flipped, return false
+        }
+    }
+    return true; // All cards are flipped
+}
+const newGame = () =>{
+    const newGameBtn = document.getElementById('new-game');
 
+    newGameBtn.addEventListener('click', ()=>{
+        body.classList.remove('new-color');
+        setup.classList.remove('display');
+        localStorage.removeItem('gridCreated');
+        location.reload();
+    })
+}
 
 // Call the function with the number of cards you want to create
 
@@ -222,17 +244,6 @@ function createCards(numPairs) {
     localStorage.setItem('gridCreated', 'true');
 }
 
-const newGame = () =>{
-    const newGameBtn = document.getElementById('new-game');
-
-    newGameBtn.addEventListener('click', ()=>{
-        body.classList.remove('new-color');
-        setup.classList.remove('display');
-        localStorage.removeItem('gridCreated');
-        location.reload();
-    })
-}
-
 function generateRandomPairs(numPairs) {
     const numbers = [];
 
@@ -248,6 +259,7 @@ function generateRandomPairs(numPairs) {
 
     return numbers;
 }
+let timeInterval;
 
 function startTimer() {
     let seconds = 0;
@@ -264,10 +276,14 @@ function startTimer() {
         // Update the text content of the minute and second elements
         minutesElement.textContent = (min < 10 ? "0" + min : min);
         secondsElement.textContent = (sec < 10 ? "0" + sec : sec);
+
+         
     };
 
     // Set the timer to update every second
-    setInterval(handler, 1000);
+    timeInterval = setInterval(handler, 1000);
+
+
 }
 
 
@@ -287,8 +303,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 })
 
 
-
-// make the card numbers random and pairs(done)
-// start the timer when i click on a card(done)
-// 2 click = 1 move(done)
-// change color when match is found(done).
+// declear a timeInterval variable(done)
+// start timer and stare in the varirable above(done)
+// create a function and call the variable and clear the "interval"(done)
+// call the function if all cards are flipped(done)
