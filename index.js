@@ -29,6 +29,7 @@ const setupFor4Grid = () =>{
             setup.classList.add('display');
             
             createCards(value4x4);
+            restartGame();
             newGame();
             // location.reload();
         }else if(isNumbers && isOnePlayer && is6x6Grid){
@@ -36,6 +37,7 @@ const setupFor4Grid = () =>{
             body.classList.add('new-color');
             setup.classList.add('display');
             createCards(value6x6);
+            restartGame();
             newGame();
         }else{
             alert('Coming Soon!');
@@ -97,11 +99,6 @@ const flipCard = () => {
                     endGamePopup(seconds);
 
                 }
-                const popNewGameBtn = document.getElementById('popup-new-game')
-
-                popNewGameBtn.addEventListener('click', () =>{
-                    newGame();
-                });
             }
         });
     });
@@ -169,10 +166,13 @@ const endGamePopup = (seconds)=>{
 }
 
 const popupNewGame = ()=>{
+   const popupContainer = document.querySelector('.popup-container')
     const popNewGame = document.getElementById('popup-new-game');
 
     popNewGame.addEventListener('click', () =>{
-        alert('hello');
+       popupContainer.style.display = 'none';
+       localStorage.removeItem('gridCreated');
+       location.reload();
     });
 };
 
@@ -194,6 +194,15 @@ const areAllCardsFlipped = ()=> {
     }
     return true; // All cards are flipped
 }
+
+const restartGame = ()=>{
+    const restartGame = document.getElementById('restart');
+
+    restartGame.addEventListener('click', () =>{
+        location.reload();
+    });
+};
+
 const newGame = () =>{
     const newGameBtn = document.getElementById('new-game');
 
@@ -287,6 +296,7 @@ function createCards(numPairs) {
     
             const cardFront = document.createElement('div');
             cardFront.classList.add('card-front');
+            cardFront.classList.add('card-front-6x6');
     
             const cardNumber = document.createElement('h2');
             cardNumber.textContent = numbers[i];
@@ -392,6 +402,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         setup.classList.add('display');
         createCards(value6x6); 
     } 
+    restartGame()
     newGame();
 
 
