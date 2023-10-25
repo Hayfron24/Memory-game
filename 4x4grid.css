@@ -213,10 +213,9 @@ body{
     justify-content: space-between;
     align-items: center;
 }
-.btn{
+.popup-btn{
   width: 16.5rem;
   height: 3.25rem;
-  flex-shrink: 0;
   border: none;
   border-radius: 1.625rem;
   font-size: 1.25rem;

@@ -153,14 +153,15 @@ const endGamePopup = ()=>{
     btnContainer.classList.add('btn-container');
 
     const popRestartBtn = document.createElement('button');
-    popRestartBtn.classList.add('btn');
+    popRestartBtn.classList.add('popup-btn');
     popRestartBtn.innerText = 'Restart'
     popRestartBtn.id = 'popup-restart';
     
     const popNewGameBtn = document.createElement('button');
-    popNewGameBtn.classList.add('btn');
+    popNewGameBtn.classList.add('popup-btn');
     popNewGameBtn.innerText = 'Setup New Game';
     popNewGameBtn.id = 'popup-new-game';
+
 
 
     body.append(popupContainer);

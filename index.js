@@ -7,6 +7,7 @@ let flippedCards = [];
 let movesCount = 0; // Initialize the moves count
 const value4x4 = document.getElementById('4x4-grid').value;
 const value6x6 = document.getElementById('6x6-grid').value;
+let seconds = 0;
 
 // const shufflefun = ()=>{
 // };
@@ -93,15 +94,95 @@ const flipCard = () => {
                 }
                 if (areAllCardsFlipped()) {
                     clearInterval(timeInterval); // Stop the timer if all cards are flipped
+                    endGamePopup(seconds);
+
                 }
+                const popNewGameBtn = document.getElementById('popup-new-game')
+
+                popNewGameBtn.addEventListener('click', () =>{
+                    newGame();
+                });
             }
         });
     });
 }
 // Pop-up function
-const endGamePopup = ()=>{
+const endGamePopup = (seconds)=>{
+    const popupContainer = document.createElement('div')
+    popupContainer.classList.add('popup-container'); 
+    popupContainer.classList.add('show'); 
+
+    const popUp = document.createElement('div')
+    popUp.classList.add('popup-content');
     
+    const h1 = document.createElement('h1');
+    h1.innerText = 'You did it!';
+    
+    const gameOverNB = document.createElement('p');
+    gameOverNB.innerText = 'Game over! Here’s how you got on…';
+
+
+        // Calculate minutes and seconds
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    
+
+    const timeElapsed = document.createElement('div');
+    timeElapsed.classList.add('info');
+    const time = document.createElement('p')
+    time.innerText = 'Time Elapsed'
+    const elapse = document.createElement('h1')
+    elapse.innerText = `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+
+
+    const movesTaken = document.createElement('div');
+    movesTaken.classList.add('info');
+    const moves = document.createElement('p')
+    moves.innerText = 'Moves Taken'
+    const count = document.createElement('h1')
+    count.innerText = `${movesCount} Moves`;
+    
+    const btnContainer = document.createElement('div');
+    btnContainer.classList.add('btn-container');
+
+    const popRestartBtn = document.createElement('button');
+    popRestartBtn.classList.add('popup-btn');
+    popRestartBtn.innerText = 'Restart'
+    popRestartBtn.id = 'popup-restart';
+    
+    const popNewGameBtn = document.createElement('button');
+    popNewGameBtn.classList.add('popup-btn');
+    popNewGameBtn.innerText = 'Setup New Game';
+    popNewGameBtn.id = 'popup-new-game';
+
+
+    body.append(popupContainer);
+    popupContainer.append(popUp);
+    popUp.append(h1, gameOverNB, timeElapsed, movesTaken, btnContainer);
+    btnContainer.append(popRestartBtn, popNewGameBtn);
+    timeElapsed.append(time,elapse);
+    movesTaken.append(moves,count);
+
+    popupNewGame();
+    popupRestart();
+
 }
+
+const popupNewGame = ()=>{
+    const popNewGame = document.getElementById('popup-new-game');
+
+    popNewGame.addEventListener('click', () =>{
+        alert('hello');
+    });
+};
+
+const popupRestart = ()=>{
+    const popupRestart = document.getElementById('popup-restart');
+
+    popupRestart.addEventListener('click', () =>{
+        location.reload();
+    });
+};
 
 // This function runs and returns true if all cards are flipped
 const areAllCardsFlipped = ()=> {
@@ -186,6 +267,7 @@ function createCards(numPairs) {
             gridContainer.appendChild(gridItem);
         }
         flipCard();
+        localStorage.setItem('gridCreated', '4x4grid');
 
     }else if(numPairs === value6x6){
         
@@ -218,6 +300,8 @@ function createCards(numPairs) {
             gridContainer.appendChild(gridItem);
         }
         flipCard();
+        localStorage.setItem('gridCreated', '6x6grid');
+
     }else{
         for (let i = 0; i < numPairs * 2; i++) {
             const gridItem = document.createElement('div');
@@ -246,7 +330,6 @@ function createCards(numPairs) {
         }
         flipCard();
     }
-    localStorage.setItem('gridCreated', 'true');
 }
 
 function generateRandomPairs(numPairs) {
@@ -267,7 +350,6 @@ function generateRandomPairs(numPairs) {
 let timeInterval;
 
 function startTimer() {
-    let seconds = 0;
 
     let handler = function() {
         seconds++;
@@ -293,22 +375,32 @@ function startTimer() {
 
 
 document.addEventListener('DOMContentLoaded',()=>{
+    
+    // endGamePopup(seconds);
     setupFor4Grid();
 
-    // if (gridCreated === 'true') {
-    //     // The grid has been created, so show it
-    //     console.log('All conditions are true');
-    //     body.classList.add('new-color');
-    //     setup.classList.add('display');
-    //     createCards(8); 
-    // } 
+    if (gridCreated === '4x4grid') {
+        // The grid has been created, so show it
+        console.log('All conditions are true');
+        body.classList.add('new-color');
+        setup.classList.add('display');
+        createCards(value4x4); 
+    }else if (gridCreated === '6x6grid') {
+        // The grid has been created, so show it
+        console.log('All conditions are true');
+        body.classList.add('new-color');
+        setup.classList.add('display');
+        createCards(value6x6); 
+    } 
     newGame();
-    
+
+
     // Replace 16 with the desired number of cards
 })
 
 
-// declear a timeInterval variable(done)
+// buttons in the popup should work
+// 
 // start timer and stare in the varirable above(done)
 // create a function and call the variable and clear the "interval"(done)
 // call the function if all cards are flipped(done)
