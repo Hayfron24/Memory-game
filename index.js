@@ -98,8 +98,13 @@ const flipCard = () => {
         });
     });
 }
+// Pop-up function
+const endGamePopup = ()=>{
+    
+}
+
 // This function runs and returns true if all cards are flipped
-function areAllCardsFlipped() {
+const areAllCardsFlipped = ()=> {
     const cards = document.querySelectorAll('.card');
     for (const card of cards) {
         if (card.getAttribute('data-flipped') !== 'true') {

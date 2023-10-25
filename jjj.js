@@ -120,7 +120,56 @@ const flipCard = () => {
         });
     });
 }
+const endGamePopup = ()=>{
+    const popupContainer = document.createElement('div')
+    popupContainer.classList.add('popup-container'); 
+    popupContainer.classList.add('show'); 
 
+    const popUp = document.createElement('div')
+    popUp.classList.add('popup-content');
+    
+    const h1 = document.createElement('h1');
+    h1.innerText = 'You did it!';
+    
+    const gameOverNB = document.createElement('p');
+    gameOverNB.innerText = 'Game over! Here’s how you got on…';
+
+    const timeElapsed = document.createElement('div');
+    timeElapsed.classList.add('info');
+    const time = document.createElement('p')
+    time.innerText = 'Time Elapsed'
+    const elapse = document.createElement('h1')
+    elapse.innerText = '00:00'
+
+
+    const movesTaken = document.createElement('div');
+    movesTaken.classList.add('info');
+    const moves = document.createElement('p')
+    moves.innerText = 'Moves Taken'
+    const count = document.createElement('h1')
+    count.innerText = '39 Moves'
+    
+    const btnContainer = document.createElement('div');
+    btnContainer.classList.add('btn-container');
+
+    const popRestartBtn = document.createElement('button');
+    popRestartBtn.classList.add('btn');
+    popRestartBtn.innerText = 'Restart'
+    popRestartBtn.id = 'popup-restart';
+    
+    const popNewGameBtn = document.createElement('button');
+    popNewGameBtn.classList.add('btn');
+    popNewGameBtn.innerText = 'Setup New Game';
+    popNewGameBtn.id = 'popup-new-game';
+
+
+    body.append(popupContainer);
+    popupContainer.append(popUp);
+    popUp.append(h1, gameOverNB, timeElapsed, movesTaken, btnContainer);
+    btnContainer.append(popRestartBtn, popNewGameBtn);
+    timeElapsed.append(time,elapse)
+    movesTaken.append(moves,count)
+}
 
 function startTimer() {
     let seconds = 0;
@@ -147,5 +196,5 @@ function startTimer() {
 document.addEventListener('DOMContentLoaded', ()=>{
     createRandomCardPairs(8);
     // flipCard();
-
+    endGamePopup()
 })
