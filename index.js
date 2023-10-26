@@ -357,6 +357,7 @@ function generateRandomPairs(numPairs) {
 
     return numbers;
 }
+
 let timeInterval;
 
 function startTimer() {
@@ -410,8 +411,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 })
 
 
-// buttons in the popup should work
-// 
-// start timer and stare in the varirable above(done)
-// create a function and call the variable and clear the "interval"(done)
-// call the function if all cards are flipped(done)

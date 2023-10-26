@@ -26,7 +26,7 @@ function createRandomCardPairs(numPairs) {
     page4x4.appendChild(status);
 
     const numbers = generateRandomPairs(numPairs);
-    const icons = generateRandomIconPairs(numPairs);
+    const icons = generateRandomIconPairs(numPairs * 2);
 
     for (let i = 0; i < numPairs * 2; i++) {
         const gridItem = document.createElement('div');
@@ -78,25 +78,79 @@ function generateRandomPairs(numPairs) {
 }
 
 function generateRandomIconPairs(numPairs) {
-    const iconClasses = ['fa-heart', 'fa-star', 'fa-smile', 'fa-thumbs-up', 'fa-bell', 'fa-coffee', 'fa-sun', 'fa-moon'];
-
-    const icons = [];
-
-    // Select pairs of icons
-    for (let i = 0; i < numPairs; i++) {
-        const randomIndex = Math.floor(Math.random() * iconClasses.length);
-        const iconClass = iconClasses[randomIndex];
-        icons.push(iconClass, iconClass); // Create pairs of the same icon
+    const iconClasses = [
+        'fa-heart',
+        'fa-star',
+        'fa-smile',
+        'fa-thumbs-up',
+        'fa-bell',
+        'fa-coffee',
+        'fa-sun',
+        'fa-moon',
+        'fa-music',
+        'fa-leaf',
+        'fa-tree',
+        'fa-car',
+        'fa-plane',
+        'fa-bicycle',
+        'fa-gift',
+        'fa-umbrella',
+        'fa-camera',
+        'fa-globe',
+        'fa-lightbulb',
+        'fa-paper-plane',
+        'fa-rocket',
+        'fa-graduation-cap',
+        'fa-trophy',
+        'fa-key',
+        // Add more unique icons here
+    ];
+    
+    if (numPairs > iconClasses.length) {
+        console.warn("Warning: Not enough unique icon classes for the requested pairs.");
+        return [];
     }
 
-    // Shuffle the icons
-    for (let i = icons.length - 1; i > 0; i--) {
+    // Randomly select unique icon classes
+    const uniqueIconClasses = iconClasses.slice(0); // Create a copy of the array
+    const selectedIconClasses = [];
+
+    while (selectedIconClasses.length < numPairs) {
+        const randomIndex = Math.floor(Math.random() * uniqueIconClasses.length);
+        const iconClass = uniqueIconClasses.splice(randomIndex, 1)[0]; // Remove the selected icon class
+        selectedIconClasses.push(iconClass, iconClass); // Create pairs of the same icon
+    }
+
+    // Shuffle the selected icon classes
+    for (let i = selectedIconClasses.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [icons[i], icons[j]] = [icons[j], icons[i]];
+        [selectedIconClasses[i], selectedIconClasses[j]] = [selectedIconClasses[j], selectedIconClasses[i]];
     }
 
-    return icons;
+    return selectedIconClasses;
 }
+
+
+// function generateRandomIconPairs(numPairs) {
+//     const iconClasses = ['fa-heart', 'fa-star', 'fa-smile', 'fa-thumbs-up', 'fa-bell', 'fa-coffee', 'fa-sun', 'fa-moon'];
+
+//     const icons = [];
+
+//     // Select pairs of icons
+//     for (let i = 0; i < numPairs; i++) {
+//         const randomIndex = Math.floor(Math.random() * iconClasses.length);
+//         const iconClass = iconClasses[randomIndex];
+//         icons.push(iconClass, iconClass); // Create pairs of the same icon
+//         console.log(randomIndex);
+//     }
+
+//     // Shuffle the icons
+//     for (let i = icons.length - 1; i > 0; i--) {
+//         const j = Math.floor(Math.random() * (i + 1));
+//         [icons[i], icons[j]] = [icons[j], icons[i]];
+//     }
+//     return icons;
+// }
 
 
 // Call the function with the number of pairs you want to create
@@ -118,10 +172,12 @@ const flipCard = () => {
                 if (flippedCards.length === 2) {
                     clickable = false; // Disable further clicks
                     const [card1, card2] = flippedCards;
-                    const number1 = card1.querySelector('h2').innerText;
-                    const number2 = card2.querySelector('h2').innerText;
-
-                    if (number1 === number2) {
+                    // const number1 = card1.querySelector('h2').innerText;
+                    const icon1 = card1.querySelector('i').classList[1]; // Get the Font Awesome class
+                    // const number2 = card2.querySelector('h2').innerText;
+                    const icon2 = card2.querySelector('i').classList[1]; // Get the Font Awesome class
+                
+                    if ( icon1 === icon2) {
                         // Matching pair, keep cards flipped
                         flippedCards = [];
                         setTimeout(() => {
@@ -227,4 +283,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
     createRandomCardPairs(8);
     // flipCard();
     // endGamePopup()
+    console.log(generateRandomIconPairs())
 })
