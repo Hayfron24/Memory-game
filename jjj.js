@@ -26,6 +26,7 @@ function createRandomCardPairs(numPairs) {
     page4x4.appendChild(status);
 
     const numbers = generateRandomPairs(numPairs);
+    const icons = generateRandomIconPairs(numPairs);
 
     for (let i = 0; i < numPairs * 2; i++) {
         const gridItem = document.createElement('div');
@@ -41,9 +42,15 @@ function createRandomCardPairs(numPairs) {
         const cardFront = document.createElement('div');
         cardFront.classList.add('card-front');
 
-        const cardNumber = document.createElement('h2');
-        cardNumber.textContent = numbers[i];
-        cardFront.appendChild(cardNumber);
+        // const cardNumber = document.createElement('h2');
+        // cardNumber.textContent = numbers[i];
+
+        
+        const cardIcon = document.createElement('i');
+        cardIcon.classList.add('fas', icons[i]);
+
+        cardFront.appendChild(cardIcon);
+        // cardFront.appendChild(cardNumber);
 
         card.appendChild(cardBack);
         card.appendChild(cardFront);
@@ -69,6 +76,28 @@ function generateRandomPairs(numPairs) {
 
     return numbers;
 }
+
+function generateRandomIconPairs(numPairs) {
+    const iconClasses = ['fa-heart', 'fa-star', 'fa-smile', 'fa-thumbs-up', 'fa-bell', 'fa-coffee', 'fa-sun', 'fa-moon'];
+
+    const icons = [];
+
+    // Select pairs of icons
+    for (let i = 0; i < numPairs; i++) {
+        const randomIndex = Math.floor(Math.random() * iconClasses.length);
+        const iconClass = iconClasses[randomIndex];
+        icons.push(iconClass, iconClass); // Create pairs of the same icon
+    }
+
+    // Shuffle the icons
+    for (let i = icons.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [icons[i], icons[j]] = [icons[j], icons[i]];
+    }
+
+    return icons;
+}
+
 
 // Call the function with the number of pairs you want to create
 // createRandomCardPairs(8); // Replace 8 with the desired number of pairs
@@ -197,5 +226,5 @@ function startTimer() {
 document.addEventListener('DOMContentLoaded', ()=>{
     createRandomCardPairs(8);
     // flipCard();
-    endGamePopup()
+    // endGamePopup()
 })
