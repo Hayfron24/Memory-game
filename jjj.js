@@ -169,6 +169,13 @@ const flipCard = () => {
                 card.querySelector('.card-back').style.transform = 'rotateY(180deg)';
                 flippedCards.push(card);
 
+
+                const childNodes = document.querySelectorAll('.card-front');
+                const eachChill = Array.from(childNodes).map(child => {
+                    const oneChild = child.querySelector('i');
+                    return oneChild;
+                });
+
                 if (flippedCards.length === 2) {
                     clickable = false; // Disable further clicks
                     const [card1, card2] = flippedCards;
@@ -284,4 +291,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // flipCard();
     // endGamePopup()
     console.log(generateRandomIconPairs())
+    
+    const childNodes = document.querySelectorAll('.card-front');
+    const eachChill = Array.from(childNodes).map(child => {
+        const oneChild = child.querySelector('i');
+        return oneChild;
+    });
+
+    if (eachChill.some(child => child)) {
+        console.log(eachChill);
+    }
+    
+
 })

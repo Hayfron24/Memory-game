@@ -7,12 +7,17 @@ let flippedCards = [];
 let movesCount = 0; // Initialize the moves count
 const value4x4 = document.getElementById('4x4-grid').value;
 const value6x6 = document.getElementById('6x6-grid').value;
-let seconds = 0;
+const number4x4 = document.getElementById('theme-numbers');
+const icon4x4 = document.getElementById('theme-icons');
 
+let isIcon;
+let seconds = 0;
+console.log(number4x4)
+console.log(icon4x4)
 // const shufflefun = ()=>{
 // };
 
-
+// function for the setup page
 const setupFor4Grid = () =>{
     // const checked = document.querySelectorAll('input[type = "radio"]:checked')
     startGame.addEventListener('click', ()=>{
@@ -20,10 +25,12 @@ const setupFor4Grid = () =>{
         const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
     
         const isNumbers = Array.from(checkedRadios).some(radio => radio.value === 'numbers');
+        const isIcons = Array.from(checkedRadios).some(radio => radio.value === 'icons');
         const isOnePlayer = Array.from(checkedRadios).some(radio => radio.value === '1');
         const is4x4Grid = Array.from(checkedRadios).some(radio => radio.id === '4x4-grid');
         const is6x6Grid = Array.from(checkedRadios).some(radio => radio.id ==='6x6-grid');
         if (isNumbers && isOnePlayer && is4x4Grid) {
+            isIcon = false;
             console.log('All conditions are true');
             body.classList.add('new-color');
             setup.classList.add('display');
@@ -39,13 +46,18 @@ const setupFor4Grid = () =>{
             createCards(value6x6);
             restartGame();
             newGame();
-        }else{
-            alert('Coming Soon!');
+        }else if(isIcons && isOnePlayer && is4x4Grid){
+            isIcon = true;
+            body.classList.add('new-color');
+            setup.classList.add('display');
+            createCards(value4x4);
+            restartGame();
+            newGame();
         }
     });
 }
 
-
+// function for the click and flip events
 let clickable = true;
 const flipCard = () => {
     const cards = document.querySelectorAll('.card');
@@ -59,16 +71,54 @@ const flipCard = () => {
                 card.querySelector('.card-back').style.transform = 'rotateY(180deg)';
                 flippedCards.push(card);
 
-                if (flippedCards.length === 2) {
+                const childNode = document.querySelectorAll('.card-front');
+                const eachChill = Array.from(childNode).map(child => {
+                    const oneChild = child.querySelector('h2');
+                    return oneChild;
+                });
+
+                if (flippedCards.length === 2 && eachChill.some(child => child)) {
                     clickable = false; // Disable further clicks
                     const [card1, card2] = flippedCards;
                     const number1 = card1.querySelector('h2').innerText;
                     const number2 = card2.querySelector('h2').innerText;
                     const moves = document.getElementById('move-count')
-                   
                     movesCount++; // Increment the moves count
+                   
                     moves.innerText = movesCount;
                     if (number1 === number2) {
+                        // Matching pair, keep cards flipped
+                        flippedCards = [];
+                        card1.querySelector('.card-front').style.background = '#FDA214';
+                        card2.querySelector('.card-front').style.background = '#FDA214';
+                        setTimeout(() => {
+                            clickable = true; // Enable clicks after a short delay
+                        }, 1000); 
+                    } else {
+                        // Not a matching pair, unflip the cards
+                        setTimeout(() => {
+                            card1.setAttribute('data-flipped', 'false');
+                            card1.querySelector('.card-front').style.transform = 'rotateY(180deg)';
+                            card1.querySelector('.card-back').style.transform = 'rotateY(0deg)';
+                            card2.setAttribute('data-flipped', 'false');
+                            card2.querySelector('.card-front').style.transform = 'rotateY(180deg)';
+                            card2.querySelector('.card-back').style.transform = 'rotateY(0deg)';
+                            flippedCards = [];
+                            clickable = true; // Enable clicks
+                        }, 1000);
+                    }
+                } else if (flippedCards.length === 2) {
+                    clickable = false; // Disable further clicks
+                    const [card1, card2] = flippedCards;
+                    // const number1 = card1.querySelector('h2').innerText;
+                    const icon1 = card1.querySelector('i').classList[1]; // Get the Font Awesome class
+                    // const number2 = card2.querySelector('h2').innerText;
+                    const icon2 = card2.querySelector('i').classList[1]; // Get the Font Awesome class
+                    const moves = document.getElementById('move-count')
+                    movesCount++; // Increment the moves count
+
+                    moves.innerText = movesCount;
+                    if ( icon1 === icon2) {
                         // Matching pair, keep cards flipped
                         flippedCards = [];
                         card1.querySelector('.card-front').style.background = '#FDA214';
@@ -89,7 +139,8 @@ const flipCard = () => {
                             clickable = true; // Enable clicks
                         }, 1000);
                     }
-                }
+                };
+                
                 if (!timerStarted) {
                     startTimer();
                     timerStarted = true;
@@ -97,12 +148,12 @@ const flipCard = () => {
                 if (areAllCardsFlipped()) {
                     clearInterval(timeInterval); // Stop the timer if all cards are flipped
                     endGamePopup(seconds);
-
                 }
             }
         });
     });
 }
+
 // Pop-up function
 const endGamePopup = (seconds)=>{
     const popupContainer = document.createElement('div')
@@ -165,6 +216,8 @@ const endGamePopup = (seconds)=>{
 
 }
 
+
+// function for the popup new game btn
 const popupNewGame = ()=>{
    const popupContainer = document.querySelector('.popup-container')
     const popNewGame = document.getElementById('popup-new-game');
@@ -176,6 +229,7 @@ const popupNewGame = ()=>{
     });
 };
 
+// function for the popup restart game btn
 const popupRestart = ()=>{
     const popupRestart = document.getElementById('popup-restart');
 
@@ -195,6 +249,7 @@ const areAllCardsFlipped = ()=> {
     return true; // All cards are flipped
 }
 
+// function for retart game btn on main page
 const restartGame = ()=>{
     const restartGame = document.getElementById('restart');
 
@@ -203,6 +258,7 @@ const restartGame = ()=>{
     });
 };
 
+// function for retart game btn on main page
 const newGame = () =>{
     const newGameBtn = document.getElementById('new-game');
 
@@ -214,8 +270,8 @@ const newGame = () =>{
     })
 }
 
+// function for creating the card
 // Call the function with the number of cards you want to create
-
 function createCards(numPairs) {
     const page4x4 = document.createElement('div')
     page4x4.classList.add('page-4x4')
@@ -247,36 +303,77 @@ function createCards(numPairs) {
         status.innerHTML = statusCount;
 
     const numbers = generateRandomPairs(numPairs);
+    const icons = generateRandomIconPairs(numPairs * 2);
 
-    if(numPairs === value4x4){
 
-        for (let i = 0; i < numPairs * 2; i++) {
+    if(numPairs=== value4x4){
+        if(!isIcon){
+
+            for (let i = 0; i < numPairs * 2; i++) {
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+        
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.setAttribute('data-flipped', 'false');
+        
+                const cardBack = document.createElement('div');
+                cardBack.classList.add('card-back');
+        
+                const cardFront = document.createElement('div');
+                cardFront.classList.add('card-front');
+        
+                const cardNumber = document.createElement('h2');
+                cardNumber.textContent = numbers[i];
+                cardFront.appendChild(cardNumber);
+                body.append(page4x4);
+                page4x4.append(gridContainer);
+                page4x4.append(status)
+                card.appendChild(cardBack);
+                card.appendChild(cardFront);
+                gridItem.appendChild(card);
+                gridContainer.appendChild(gridItem);
+            }
+            flipCard();
+            localStorage.setItem('gridCreated', '4x4grid');
+            console.log(isIcon)
+        }else{
+            
+            for (let i = 0; i < numPairs * 2; i++) {
             const gridItem = document.createElement('div');
             gridItem.classList.add('grid-item');
-    
+
             const card = document.createElement('div');
             card.classList.add('card');
             card.setAttribute('data-flipped', 'false');
-    
+
             const cardBack = document.createElement('div');
             cardBack.classList.add('card-back');
-    
+
             const cardFront = document.createElement('div');
             cardFront.classList.add('card-front');
-    
-            const cardNumber = document.createElement('h2');
-            cardNumber.textContent = numbers[i];
-            cardFront.appendChild(cardNumber);
+
+            // const cardNumber = document.createElement('h2');
+            // cardNumber.textContent = numbers[i];
+
+            
+            const cardIcon = document.createElement('i');
+            cardIcon.classList.add('fas', icons[i]);
+
+            cardFront.appendChild(cardIcon);
+            // cardFront.appendChild(cardNumber);
             body.append(page4x4);
             page4x4.append(gridContainer);
-            page4x4.append(status)
+            page4x4.append(status);
             card.appendChild(cardBack);
             card.appendChild(cardFront);
             gridItem.appendChild(card);
             gridContainer.appendChild(gridItem);
+            }
+            flipCard();
+            localStorage.setItem('gridCreated', '4x4grid-icons');
         }
-        flipCard();
-        localStorage.setItem('gridCreated', '4x4grid');
+        console.log(isIcon)
 
     }else if(numPairs === value6x6){
         
@@ -312,36 +409,13 @@ function createCards(numPairs) {
         flipCard();
         localStorage.setItem('gridCreated', '6x6grid');
 
-    }else{
-        for (let i = 0; i < numPairs * 2; i++) {
-            const gridItem = document.createElement('div');
-            gridItem.classList.add('grid-item');
-    
-            const card = document.createElement('div');
-            card.classList.add('card');
-            card.setAttribute('data-flipped', 'false');
-    
-            const cardBack = document.createElement('div');
-            cardBack.classList.add('card-back');
-    
-            const cardFront = document.createElement('div');
-            cardFront.classList.add('card-front');
-    
-            const cardNumber = document.createElement('h2');
-            cardNumber.textContent = numbers[i];
-            cardFront.appendChild(cardNumber);
-            body.append(page4x4);
-            page4x4.append(gridContainer);
-            page4x4.append(status)
-            card.appendChild(cardBack);
-            card.appendChild(cardFront);
-            gridItem.appendChild(card);
-            gridContainer.appendChild(gridItem);
-        }
-        flipCard();
+    }else if(numPairs === value4x4 && isIcon){
+        
     }
 }
 
+
+// // function generating the random pair of numbers
 function generateRandomPairs(numPairs) {
     const numbers = [];
 
@@ -358,8 +432,61 @@ function generateRandomPairs(numPairs) {
     return numbers;
 }
 
-let timeInterval;
+function generateRandomIconPairs(numPairs) {
+    const iconClasses = [
+        'fa-heart',
+        'fa-star',
+        'fa-smile',
+        'fa-thumbs-up',
+        'fa-bell',
+        'fa-coffee',
+        'fa-sun',
+        'fa-moon',
+        'fa-music',
+        'fa-leaf',
+        'fa-tree',
+        'fa-car',
+        'fa-plane',
+        'fa-bicycle',
+        'fa-gift',
+        'fa-umbrella',
+        'fa-camera',
+        'fa-globe',
+        'fa-lightbulb',
+        'fa-paper-plane',
+        'fa-rocket',
+        'fa-graduation-cap',
+        'fa-trophy',
+        'fa-key',
+        // Add more unique icons here
+    ];
+    
+    if (numPairs > iconClasses.length) {
+        console.warn("Warning: Not enough unique icon classes for the requested pairs.");
+        return [];
+    }
 
+    // Randomly select unique icon classes
+    const uniqueIconClasses = iconClasses.slice(0); // Create a copy of the array
+    const selectedIconClasses = [];
+
+    while (selectedIconClasses.length < numPairs) {
+        const randomIndex = Math.floor(Math.random() * uniqueIconClasses.length);
+        const iconClass = uniqueIconClasses.splice(randomIndex, 1)[0]; // Remove the selected icon class
+        selectedIconClasses.push(iconClass, iconClass); // Create pairs of the same icon
+    }
+
+    // Shuffle the selected icon classes
+    for (let i = selectedIconClasses.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [selectedIconClasses[i], selectedIconClasses[j]] = [selectedIconClasses[j], selectedIconClasses[i]];
+    }
+
+    return selectedIconClasses;
+}
+
+// function for starting the time count
+let timeInterval;
 function startTimer() {
 
     let handler = function() {
@@ -384,7 +511,7 @@ function startTimer() {
 
 }
 
-
+// content displayed when the paeg is loaded
 document.addEventListener('DOMContentLoaded',()=>{
     
     // endGamePopup(seconds);
@@ -392,6 +519,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     if (gridCreated === '4x4grid') {
         // The grid has been created, so show it
+        console.log('All conditions are true');
+        body.classList.add('new-color');
+        setup.classList.add('display');
+        createCards(value4x4); 
+    }else if (gridCreated === '4x4grid-icons') {
+        // The grid has been created, so show it
+        isIcon = true;
         console.log('All conditions are true');
         body.classList.add('new-color');
         setup.classList.add('display');
@@ -406,6 +540,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     restartGame()
     newGame();
 
+    console.log(isIcon)
 
     // Replace 16 with the desired number of cards
 })
