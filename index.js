@@ -50,7 +50,7 @@ const setupFor4Grid = () =>{
             isIcon = true;
             body.classList.add('new-color');
             setup.classList.add('display');
-            createCards(value4x4);
+            createCards(2);
             restartGame();
             newGame();
         }
@@ -458,7 +458,29 @@ function generateRandomIconPairs(numPairs) {
         'fa-graduation-cap',
         'fa-trophy',
         'fa-key',
-        // Add more unique icons here
+        'fa-anchor',
+        'fa-bolt',
+        'fa-cloud',
+        'fa-comments',
+        'fa-cog',
+        'fa-desktop',
+        'fa-envelope',
+        'fa-futbol',
+        'fa-gem',
+        'fa-hamburger',
+        'fa-leaf',
+        'fa-magic',
+        'fa-paint-brush',
+        'fa-paw',
+        'fa-recycle',
+        'fa-shoe-prints',
+        'fa-space-shuttle',
+        'fa-stethoscope',
+        'fa-trophy',
+        'fa-umbrella',
+        'fa-wheelchair',
+        'fa-wine-glass',
+        'fa-yin-yang',
     ];
     
     if (numPairs > iconClasses.length) {
