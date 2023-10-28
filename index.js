@@ -50,7 +50,7 @@ const setupFor4Grid = () =>{
             isIcon = true;
             body.classList.add('new-color');
             setup.classList.add('display');
-            createCards(2);
+            createCards(value4x4);
             restartGame();
             newGame();
         }
