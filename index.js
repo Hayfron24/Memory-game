@@ -38,14 +38,25 @@ const setupFor4Grid = () =>{
             createCards(value4x4);
             restartGame();
             newGame();
+            if(x.matches){
+                mobileMenu();
+                menuBtn();
+                // console.log('jjfgj')
+            }
             // location.reload();
         }else if(isNumbers && isOnePlayer && is6x6Grid){
             // alert('Coming Soon!');
+            isIcon = false;
             body.classList.add('new-color');
             setup.classList.add('display');
             createCards(value6x6);
             restartGame();
             newGame();
+            if(x.matches){
+                mobileMenu();
+                menuBtn();
+                // console.log('jjfgj')
+            }
         }else if(isIcons && isOnePlayer && is4x4Grid){
             isIcon = true;
             body.classList.add('new-color');
@@ -53,6 +64,23 @@ const setupFor4Grid = () =>{
             createCards(value4x4);
             restartGame();
             newGame();
+            if(x.matches){
+                mobileMenu();
+                menuBtn();
+                // console.log('jjfgj')
+            }
+        }else if(isIcons && isOnePlayer && is6x6Grid){
+            isIcon = true;
+            body.classList.add('new-color');
+            setup.classList.add('display');
+            createCards(value6x6);
+            restartGame();
+            newGame();
+            if(x.matches){
+                mobileMenu();
+                menuBtn();
+                // console.log('jjfgj')
+            }
         }
     });
 }
@@ -72,12 +100,12 @@ const flipCard = () => {
                 flippedCards.push(card);
 
                 const childNode = document.querySelectorAll('.card-front');
-                const eachChill = Array.from(childNode).map(child => {
+                const eachChild = Array.from(childNode).map(child => {
                     const oneChild = child.querySelector('h2');
                     return oneChild;
                 });
 
-                if (flippedCards.length === 2 && eachChill.some(child => child)) {
+                if (flippedCards.length === 2 && eachChild.some(child => child)) {
                     clickable = false; // Disable further clicks
                     const [card1, card2] = flippedCards;
                     const number1 = card1.querySelector('h2').innerText;
@@ -232,8 +260,12 @@ const popupNewGame = ()=>{
 // function for the popup restart game btn
 const popupRestart = ()=>{
     const popupRestart = document.getElementById('popup-restart');
+    const menuRestart = document.getElementById('menu-restart');
 
     popupRestart.addEventListener('click', () =>{
+        location.reload();
+    });
+    menuRestart.addEventListener('click', () =>{
         location.reload();
     });
 };
@@ -280,6 +312,7 @@ function createCards(numPairs) {
         <div class="buttons">
             <button id="restart">Restart</button>
             <button id="new-game">New Game</button>
+            <button id="menu">Menu</button>
         </div>
         </div>`
     page4x4.innerHTML = headerContainer;
@@ -376,38 +409,79 @@ function createCards(numPairs) {
         console.log(isIcon)
 
     }else if(numPairs === value6x6){
+        if(!isIcon){
+            for (let i = 0; i < numPairs * 2; i++) {
+                gridContainer.classList.add('grid-container-6x6');
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+                gridItem.classList.add('grid-item-6x6');
+    
         
-        for (let i = 0; i < numPairs * 2; i++) {
-            gridContainer.classList.add('grid-container-6x6');
-            const gridItem = document.createElement('div');
-            gridItem.classList.add('grid-item');
-            gridItem.classList.add('grid-item-6x6');
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.setAttribute('data-flipped', 'false');
+        
+                const cardBack = document.createElement('div');
+                cardBack.classList.add('card-back');
+        
+                const cardFront = document.createElement('div');
+                cardFront.classList.add('card-front');
+                cardFront.classList.add('card-front-6x6');
+        
+                const cardNumber = document.createElement('h2');
+                cardNumber.textContent = numbers[i];
+                cardFront.appendChild(cardNumber);
+                body.append(page4x4);
+                page4x4.append(gridContainer);
+                page4x4.append(status)
+                card.appendChild(cardBack);
+                card.appendChild(cardFront);
+                gridItem.appendChild(card);
+                gridContainer.appendChild(gridItem);
+            }
+            
+            flipCard();
+            localStorage.setItem('gridCreated', '6x6grid');
+        }else{
+            for (let i = 0; i < numPairs * 2; i++) {
+                gridContainer.classList.add('grid-container-6x6');
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+                gridItem.classList.add('grid-item-6x6');
 
-    
-            const card = document.createElement('div');
-            card.classList.add('card');
-            card.setAttribute('data-flipped', 'false');
-    
-            const cardBack = document.createElement('div');
-            cardBack.classList.add('card-back');
-    
-            const cardFront = document.createElement('div');
-            cardFront.classList.add('card-front');
-            cardFront.classList.add('card-front-6x6');
-    
-            const cardNumber = document.createElement('h2');
-            cardNumber.textContent = numbers[i];
-            cardFront.appendChild(cardNumber);
-            body.append(page4x4);
-            page4x4.append(gridContainer);
-            page4x4.append(status)
-            card.appendChild(cardBack);
-            card.appendChild(cardFront);
-            gridItem.appendChild(card);
-            gridContainer.appendChild(gridItem);
+
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.setAttribute('data-flipped', 'false');
+
+                const cardBack = document.createElement('div');
+                cardBack.classList.add('card-back');
+
+                const cardFront = document.createElement('div');
+                cardFront.classList.add('card-front');
+                cardFront.classList.add('card-front-6x6');
+
+                // const cardNumber = document.createElement('h2');
+                // cardNumber.textContent = numbers[i];
+
+                
+                const cardIcon = document.createElement('i');
+                cardIcon.classList.add('fas', icons[i]);
+
+                cardFront.appendChild(cardIcon);
+                // cardFront.appendChild(cardNumber);
+                body.append(page4x4);
+                page4x4.append(gridContainer);
+                page4x4.append(status);
+                card.appendChild(cardBack);
+                card.appendChild(cardFront);
+                gridItem.appendChild(card);
+                gridContainer.appendChild(gridItem);
+            }
+                flipCard();
+                localStorage.setItem('gridCreated', '6x6grid-icons');
         }
-        flipCard();
-        localStorage.setItem('gridCreated', '6x6grid');
+            
 
     }else if(numPairs === value4x4 && isIcon){
         
@@ -507,6 +581,8 @@ function generateRandomIconPairs(numPairs) {
     return selectedIconClasses;
 }
 
+
+
 // function for starting the time count
 let timeInterval;
 function startTimer() {
@@ -530,6 +606,87 @@ function startTimer() {
     // Set the timer to update every second
     timeInterval = setInterval(handler, 1000);
 
+
+}
+
+
+let x = window.matchMedia("(max-width: 420px)")
+
+const mobileMenu = () =>{
+    const menuContainer = document.createElement('div');
+    menuContainer.classList.add('menu-container');
+    
+    const menu = document.createElement('div');
+    menu.classList.add('popup-content');
+    menu.classList.add('menu');
+
+    const btnContainer = document.createElement('div');
+    btnContainer.classList.add('menu-btns')
+
+    const menuRestart = document.createElement('button');
+    menuRestart.id = 'menu-restart';
+    menuRestart.innerText = 'Restart';
+    
+    const menuNewGame = document.createElement('button');
+    menuNewGame.id = 'menu-newGame';
+    menuNewGame.innerText = 'New Game';
+    
+    const menuResume = document.createElement('button');
+    menuResume.id = 'menu-resume';
+    menuResume.innerText = 'Resume Game';
+
+
+
+    body.append(menuContainer);
+    menuContainer.append(menu);
+    menu.append(btnContainer);
+    btnContainer.append(menuRestart,menuNewGame,menuResume)
+    // menuRestart();
+}
+
+const menuBtn = () =>{
+    const menuBtn = document.getElementById('menu');
+    const menuContainer = document.querySelector('.menu-container');
+    menuBtn.addEventListener('click', () =>{
+        // mobileMenu();
+        menuContainer.classList.toggle('show')
+        menuRestart();
+        menuNewGame();
+        resumeBtn();
+        // alert('here')
+    })
+};
+
+const menuRestart = ()=>{
+    // const popupRestart = document.getElementById('popup-restart');
+    const menuRestart = document.getElementById('menu-restart');
+
+    menuRestart.addEventListener('click', () =>{
+        location.reload();
+    })
+
+
+};
+
+const menuNewGame = () =>{
+    const menuContainer = document.querySelector('.menu-container');
+    const newGameBtn = document.getElementById('menu-newGame');
+
+    newGameBtn.addEventListener('click', ()=>{
+        menuContainer.classList.remove('show')
+        body.classList.remove('new-color');
+        setup.classList.remove('display');
+        localStorage.removeItem('gridCreated');
+        location.reload();
+    })
+};
+
+const resumeBtn = () =>{
+    const resumeBtn = document.getElementById('menu-resume');
+    const menuContainer = document.querySelector('.menu-container');
+    resumeBtn.addEventListener('click', () =>{
+        menuContainer.classList.remove('show');
+    })
 
 }
 
@@ -558,9 +715,19 @@ document.addEventListener('DOMContentLoaded',()=>{
         body.classList.add('new-color');
         setup.classList.add('display');
         createCards(value6x6); 
-    } 
+    }else if(gridCreated === '6x6grid-icons'){
+        isIcon = true;
+        body.classList.add('new-color');
+        setup.classList.add('display');
+        createCards(value6x6);
+    }
     restartGame()
     newGame();
+    if(x.matches){
+        mobileMenu();
+        menuBtn();
+        // console.log('jjfgj')
+    }
 
     console.log(isIcon)
 

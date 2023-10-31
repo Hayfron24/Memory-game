@@ -286,8 +286,95 @@ function startTimer() {
 }
 
 
+
+let x = window.matchMedia("(max-width: 420px)")
+
+const mobileMenu = () =>{
+    const menuContainer = document.createElement('div');
+    menuContainer.classList.add('menu-container');
+    
+    const menu = document.createElement('div');
+    menu.classList.add('popup-content');
+    menu.classList.add('menu');
+
+    const btnContainer = document.createElement('div');
+    btnContainer.classList.add('menu-btns')
+
+    const menuRestart = document.createElement('button');
+    menuRestart.id = 'menu-restart';
+    menuRestart.innerText = 'Restart';
+    
+    const menuNewGame = document.createElement('button');
+    menuNewGame.id = 'menu-newGame';
+    menuNewGame.innerText = 'New Game';
+    
+    const menuResume = document.createElement('button');
+    menuResume.id = 'menu-resume';
+    menuResume.innerText = 'Resume Game';
+
+
+
+    body.append(menuContainer);
+    menuContainer.append(menu);
+    menu.append(btnContainer);
+    btnContainer.append(menuRestart,menuNewGame,menuResume)
+    // menuRestart();
+}
+
+const menuBtn = () =>{
+    const menuBtn = document.getElementById('menu');
+    const menuContainer = document.querySelector('.menu-container');
+    menuBtn.addEventListener('click', () =>{
+        // mobileMenu();
+        menuContainer.classList.toggle('show')
+        menuRestart();
+        menuNewGame();
+        resumeBtn();
+        // alert('here')
+    })
+};
+
+const menuRestart = ()=>{
+    // const popupRestart = document.getElementById('popup-restart');
+    const menuRestart = document.getElementById('menu-restart');
+
+    menuRestart.addEventListener('click', () =>{
+        location.reload();
+    })
+
+
+};
+
+const resumeBtn = () =>{
+    const resumeBtn = document.getElementById('menu-resume');
+    const menuContainer = document.querySelector('.menu-container');
+    resumeBtn.addEventListener('click', () =>{
+        menuContainer.classList.remove('show');
+    })
+
+}
+
+
+const menuNewGame = () =>{
+    const newGameBtn = document.getElementById('menu-newGame');
+
+    newGameBtn.addEventListener('click', ()=>{
+        // body.classList.remove('new-color');
+        // setup.classList.remove('display');
+        // localStorage.removeItem('gridCreated');
+        location.reload();
+    })
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
     createRandomCardPairs(8);
+    if(x.matches){
+        mobileMenu();
+        menuBtn();
+        // console.log('jjfgj')
+    }
+    // menuRestart();
+    // resumeBtn();
     // flipCard();
     // endGamePopup()
     console.log(generateRandomIconPairs())
@@ -302,5 +389,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
         console.log(eachChill);
     }
     
-
 })

@@ -104,4 +104,38 @@ button:hover{
     background: #FFB84A;
 }
 
+/* Mobile media query */
 
+@media (min-width: 320px) and (max-width: 420px){
+    .logo-setup{
+        font-size: 2rem;
+        margin-bottom: 3rem;
+    }
+    .panel{
+        width: 20.4375rem;
+        height: 24.125rem;
+    }
+    .panel p{
+        font-size: 0.9375rem;
+    }
+    .theme-selection,.player-type,.grid-type{
+        width:85%;
+        margin-top: 1.5rem;
+    }
+    .btn{
+        height: 2.5rem;
+        font-size: 1rem;
+    }
+    .theme-name,.grid{
+        width: 8.375rem;
+    }
+    .player{
+        width: 3.875rem;
+    }
+    button{
+        width: 85%;
+        height: 3rem;
+        font-size: 1.125rem;
+        margin-top: 1.5rem;
+    }
+}
