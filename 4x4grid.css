@@ -260,14 +260,24 @@ body{
         display: block;
    }
    .grid-container{
-    gap: .8rem;
+        gap: .8rem;
+   }
+   .grid-container-6x6{
+    gap: .4rem;
    }
    .grid-item{
         width: 4.53313rem;
         height: 4.53313rem;
    }
+   .grid-item-6x6{
+        width: 2.92988rem;
+        height: 2.92988rem;
+    }
    .card-front{
         font-size: 2rem;
+    }
+    .card-front-6x6{
+        font-size: 1.5rem;
     }
     .status{
         width: 85%;
