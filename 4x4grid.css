@@ -129,10 +129,48 @@ body{
 }
 
 .status{
-    width: 33.25rem;
+    width: 33.2rem;
     display: flex;
     justify-content: space-between;
 }
+.player{
+    width: 15.9375rem;
+    height: 4.5rem;
+    background: #DFE7EC;
+    border-radius: 0.625rem;
+    margin: 5rem 2rem 0 0;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player.active-player{
+    background: #FDA214;
+}
+.player.active-player p{
+    color: #fcfcfc;
+}
+.player.active-player h2{
+    color: #fcfcfc;
+}
+
+.player h2{
+    color: #304859;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+/* .player h2.active-player{
+    color: #fcfcfc;
+} */
+.player p{
+    color: #7191A5;
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+/* .player p.active-player{
+    color: #fcfcfc;
+} */
 .count {
     width: 15.9375rem;
     height: 4.5rem;
@@ -144,7 +182,6 @@ body{
     color: #7191A5;
     font-size: 1.125rem;
     font-weight: 700;
-
 }
 .count p,label{
     color: #304859;

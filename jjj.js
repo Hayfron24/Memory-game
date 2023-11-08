@@ -1,17 +1,25 @@
 const body = document.body;
 let timerStarted = false; // Variable to track if the timer has started
 let flippedCards = [];
+let isIcon = true;
+let numberOfPlayers = 3;
+let activePlayer = 1;
+let playerScores = [];
 
 function createRandomCardPairs(numPairs) {
     const page4x4 = document.querySelector('.page-4x4');
     const gridContainer = document.createElement('div');
     gridContainer.classList.add('grid-container');
 
+    for (let i = 0; i < numberOfPlayers; i++) {
+        playerScores[i] = 0;
+    }
+
     const status = document.createElement('div');
     status.classList.add('status');
     let statusCount = `
-        <div class="count" id="time">
-            <h3>Time</h3>
+    <div class="count" id="time">
+        <h3>Time</h3>
             <div class="timer">
                 <label id="minutes">00</label> <label for="">:</label> <label id="seconds">00</label>
             </div>
@@ -20,18 +28,18 @@ function createRandomCardPairs(numPairs) {
             <h3>Moves</h3>
             <p>0</p>
         </div>`;
-    status.innerHTML = statusCount;
+    // status.innerHTML = statusCount;
 
     page4x4.appendChild(gridContainer);
     page4x4.appendChild(status);
 
     const numbers = generateRandomPairs(numPairs);
     const icons = generateRandomIconPairs(numPairs * 2);
-
+    
     for (let i = 0; i < numPairs * 2; i++) {
         const gridItem = document.createElement('div');
         gridItem.classList.add('grid-item');
-
+        
         const card = document.createElement('div');
         card.classList.add('card');
         card.setAttribute('data-flipped', 'false');
@@ -42,15 +50,17 @@ function createRandomCardPairs(numPairs) {
         const cardFront = document.createElement('div');
         cardFront.classList.add('card-front');
 
-        // const cardNumber = document.createElement('h2');
-        // cardNumber.textContent = numbers[i];
 
+        if(isIcon){
+            const cardIcon = document.createElement('i');
+            cardIcon.classList.add('fas', icons[i]);
+            cardFront.appendChild(cardIcon);
+        }else{
+            const cardNumber = document.createElement('h2');
+            cardNumber.textContent = numbers[i];
+            cardFront.appendChild(cardNumber);
+        }
         
-        const cardIcon = document.createElement('i');
-        cardIcon.classList.add('fas', icons[i]);
-
-        cardFront.appendChild(cardIcon);
-        // cardFront.appendChild(cardNumber);
 
         card.appendChild(cardBack);
         card.appendChild(cardFront);
@@ -58,8 +68,58 @@ function createRandomCardPairs(numPairs) {
         gridContainer.appendChild(gridItem);
     }
     flipCard();
+    multiplayerStatus(numberOfPlayers);
     // startTimer()
 }
+
+let winCount = 0;
+const multiplayerStatus = (numberOfPlayers) =>{
+    const status = document.querySelector('.status');
+    if(numberOfPlayers < 2){
+        let statusCount = `
+        <div class="count" id="time">
+            <h3>Time</h3>
+            <div class="timer">
+                <label id="minutes">00</label> <label for="">:</label> <label id="seconds">00</label>
+            </div>
+        </div>
+        <div class="count" id="moves">
+        <h3>Moves</h3>
+            <p>0</p>
+        </div>`;
+
+            status.innerHTML = statusCount;
+    }else{
+        for(let i = 1; i <= numberOfPlayers; i++){
+            
+            status.style.width = 'auto'
+            const player = document.createElement('div');
+            player.classList.add('player');
+            
+            const playerNum = document.createElement('p');
+            playerNum.innerText = 'player '+ i;
+    
+            const playerWinCount = document.createElement('h2');
+            playerWinCount.innerText = '0';
+            
+            status.append(player);
+            player.append(playerNum);
+            player.append(playerWinCount);
+            if (i === activePlayer){
+                player.classList.add('active-player');
+                playerNum.classList.add('active-player');
+                playerWinCount.classList.add('active-player');
+            }
+        }
+    }
+}
+console.log(playerScores[1])
+const switchToNextPlayer = () => {
+    document.querySelector('.player.active-player').classList.remove('active-player');
+    activePlayer = (activePlayer % numberOfPlayers) + 1;
+    document.querySelector('.player:nth-child(' + activePlayer + ')').classList.add('active-player');
+};
+
 
 function generateRandomPairs(numPairs) {
     const numbers = [];
@@ -187,6 +247,14 @@ const flipCard = () => {
                     if ( icon1 === icon2) {
                         // Matching pair, keep cards flipped
                         flippedCards = [];
+                        const playerWinCount = document.querySelector('.player.active-player h2')
+                        
+                        // Increment the score of the active player
+                        playerScores[activePlayer - 1]++; // Subtract 1 because player numbers are 1-based     
+
+
+                        playerWinCount.innerText = playerScores[activePlayer - 1];
+                        // switchToNextPlayer();
                         setTimeout(() => {
                             clickable = true; // Enable clicks after a short delay
                         }, 1000);
@@ -201,6 +269,7 @@ const flipCard = () => {
                             card2.querySelector('.card-back').style.transform = 'rotateY(0deg)';
                             flippedCards = [];
                             clickable = true; // Enable clicks
+                            switchToNextPlayer();
                         }, 1000);
                     }
                 }
@@ -212,6 +281,7 @@ const flipCard = () => {
         });
     });
 }
+
 const endGamePopup = ()=>{
     const popupContainer = document.createElement('div')
     popupContainer.classList.add('popup-container'); 

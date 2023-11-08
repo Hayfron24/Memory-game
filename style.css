@@ -85,9 +85,9 @@ input[type = "radio"]:checked +.btn{
 .theme-name,.grid{
     width: 16rem;
 }
-.player{
-    width: 7.4375rem;
-}
+/* .player{
+    width: 12.4375rem;
+} */
 button{
     width: 80%;
     height: 4.375rem;

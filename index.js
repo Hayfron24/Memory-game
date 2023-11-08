@@ -27,15 +27,42 @@ const setupFor4Grid = () =>{
         const isNumbers = Array.from(checkedRadios).some(radio => radio.value === 'numbers');
         const isIcons = Array.from(checkedRadios).some(radio => radio.value === 'icons');
         const isOnePlayer = Array.from(checkedRadios).some(radio => radio.value === '1');
+        const isTwoPlayers = Array.from(checkedRadios).some(radio => radio.value === '2');
+        const isThreePlayers = Array.from(checkedRadios).some(radio => radio.value === '3');
+        const isFourPlayers = Array.from(checkedRadios).some(radio => radio.value === '4');
         const is4x4Grid = Array.from(checkedRadios).some(radio => radio.id === '4x4-grid');
         const is6x6Grid = Array.from(checkedRadios).some(radio => radio.id ==='6x6-grid');
-        if (isNumbers && isOnePlayer && is4x4Grid) {
-            isIcon = false;
+        if (is4x4Grid) {
+            if(isNumbers){
+                isIcon = false;
+                createCards(value4x4);
+                if(isOnePlayer){
+                    multiplayerStatus(1)
+                }else if(isTwoPlayers){
+                    multiplayerStatus(2)
+                }else if(isThreePlayers){
+                    multiplayerStatus(3)
+                }else if(isFourPlayers){
+                    multiplayerStatus(4)
+                }
+            }else{
+                isIcon = true;
+                createCards(value4x4);
+                if(isOnePlayer){
+                    multiplayerStatus(1)
+                }else if(isTwoPlayers){
+                    multiplayerStatus(2)
+                }else if(isThreePlayers){
+                    multiplayerStatus(3)
+                }else if(isFourPlayers){
+                    multiplayerStatus(4)
+                }
+            }
+           
             console.log('All conditions are true');
             body.classList.add('new-color');
             setup.classList.add('display');
             
-            createCards(value4x4);
             restartGame();
             newGame();
             if(x.matches){
@@ -44,36 +71,35 @@ const setupFor4Grid = () =>{
                 // console.log('jjfgj')
             }
             // location.reload();
-        }else if(isNumbers && isOnePlayer && is6x6Grid){
+        }else if(is6x6Grid){
+            if(isNumbers){
+                isIcon = false;
+                createCards(value6x6);
+                if(isOnePlayer){
+                    multiplayerStatus(1)
+                }else if(isTwoPlayers){
+                    multiplayerStatus(2)
+                }else if(isThreePlayers){
+                    multiplayerStatus(3)
+                }else if(isFourPlayers){
+                    multiplayerStatus(4)
+                }
+            }else{
+                isIcon = true;
+                createCards(value6x6);
+                if(isOnePlayer){
+                    multiplayerStatus(1)
+                }else if(isTwoPlayers){
+                    multiplayerStatus(2)
+                }else if(isThreePlayers){
+                    multiplayerStatus(3)
+                }else if(isFourPlayers){
+                    multiplayerStatus(4)
+                }
+            }
             // alert('Coming Soon!');
-            isIcon = false;
             body.classList.add('new-color');
             setup.classList.add('display');
-            createCards(value6x6);
-            restartGame();
-            newGame();
-            if(x.matches){
-                mobileMenu();
-                menuBtn();
-                // console.log('jjfgj')
-            }
-        }else if(isIcons && isOnePlayer && is4x4Grid){
-            isIcon = true;
-            body.classList.add('new-color');
-            setup.classList.add('display');
-            createCards(value4x4);
-            restartGame();
-            newGame();
-            if(x.matches){
-                mobileMenu();
-                menuBtn();
-                // console.log('jjfgj')
-            }
-        }else if(isIcons && isOnePlayer && is6x6Grid){
-            isIcon = true;
-            body.classList.add('new-color');
-            setup.classList.add('display');
-            createCards(value6x6);
             restartGame();
             newGame();
             if(x.matches){
@@ -321,27 +347,26 @@ function createCards(numPairs) {
 
     const status = document.createElement('div')
     status.classList.add('status')
-    let statusCount = `
-        <div class="count" id="time">
-                <h3>Time</h3>
-                <div class="timer">
-                    <label id="minutes">00</label> <label for="">:</label> <label id="seconds">00</label>
-                </div>
-            </div>
-            <div class="count" id="moves">
-                <h3>moves</h3>
-                <p id ="move-count">0</p>
-        </div>`
-        
-        status.innerHTML = statusCount;
+    // let statusCount = `
+    //     <div class="count" id="time">
+    //             <h3>Time</h3>
+    //             <div class="timer">
+    //                 <label id="minutes">00</label> <label for="">:</label> <label id="seconds">00</label>
+    //             </div>
+    //         </div>
+    //         <div class="count" id="moves">
+    //             <h3>moves</h3>
+    //             <p id ="move-count">0</p>
+    //     </div>`
+    
+    //     status.innerHTML = statusCount;
 
     const numbers = generateRandomPairs(numPairs);
     const icons = generateRandomIconPairs(numPairs * 2);
+    let numberOfPlayerp = 2 ;
 
 
-    if(numPairs=== value4x4){
-        if(!isIcon){
-
+        if(numPairs=== value4x4){
             for (let i = 0; i < numPairs * 2; i++) {
                 const gridItem = document.createElement('div');
                 gridItem.classList.add('grid-item');
@@ -356,138 +381,113 @@ function createCards(numPairs) {
                 const cardFront = document.createElement('div');
                 cardFront.classList.add('card-front');
         
-                const cardNumber = document.createElement('h2');
-                cardNumber.textContent = numbers[i];
-                cardFront.appendChild(cardNumber);
-                body.append(page4x4);
-                page4x4.append(gridContainer);
-                page4x4.append(status)
-                card.appendChild(cardBack);
-                card.appendChild(cardFront);
-                gridItem.appendChild(card);
-                gridContainer.appendChild(gridItem);
-            }
-            flipCard();
-            localStorage.setItem('gridCreated', '4x4grid');
-            console.log(isIcon)
-        }else{
-            
-            for (let i = 0; i < numPairs * 2; i++) {
-            const gridItem = document.createElement('div');
-            gridItem.classList.add('grid-item');
-
-            const card = document.createElement('div');
-            card.classList.add('card');
-            card.setAttribute('data-flipped', 'false');
-
-            const cardBack = document.createElement('div');
-            cardBack.classList.add('card-back');
-
-            const cardFront = document.createElement('div');
-            cardFront.classList.add('card-front');
-
-            // const cardNumber = document.createElement('h2');
-            // cardNumber.textContent = numbers[i];
-
-            
-            const cardIcon = document.createElement('i');
-            cardIcon.classList.add('fas', icons[i]);
-
-            cardFront.appendChild(cardIcon);
-            // cardFront.appendChild(cardNumber);
-            body.append(page4x4);
-            page4x4.append(gridContainer);
-            page4x4.append(status);
-            card.appendChild(cardBack);
-            card.appendChild(cardFront);
-            gridItem.appendChild(card);
-            gridContainer.appendChild(gridItem);
-            }
-            flipCard();
-            localStorage.setItem('gridCreated', '4x4grid-icons');
-        }
-        console.log(isIcon)
-
-    }else if(numPairs === value6x6){
-        if(!isIcon){
-            for (let i = 0; i < numPairs * 2; i++) {
-                gridContainer.classList.add('grid-container-6x6');
-                const gridItem = document.createElement('div');
-                gridItem.classList.add('grid-item');
-                gridItem.classList.add('grid-item-6x6');
-    
-        
-                const card = document.createElement('div');
-                card.classList.add('card');
-                card.setAttribute('data-flipped', 'false');
-        
-                const cardBack = document.createElement('div');
-                cardBack.classList.add('card-back');
-        
-                const cardFront = document.createElement('div');
-                cardFront.classList.add('card-front');
-                cardFront.classList.add('card-front-6x6');
-        
-                const cardNumber = document.createElement('h2');
-                cardNumber.textContent = numbers[i];
-                cardFront.appendChild(cardNumber);
-                body.append(page4x4);
-                page4x4.append(gridContainer);
-                page4x4.append(status)
-                card.appendChild(cardBack);
-                card.appendChild(cardFront);
-                gridItem.appendChild(card);
-                gridContainer.appendChild(gridItem);
-            }
-            
-            flipCard();
-            localStorage.setItem('gridCreated', '6x6grid');
-        }else{
-            for (let i = 0; i < numPairs * 2; i++) {
-                gridContainer.classList.add('grid-container-6x6');
-                const gridItem = document.createElement('div');
-                gridItem.classList.add('grid-item');
-                gridItem.classList.add('grid-item-6x6');
-
-
-                const card = document.createElement('div');
-                card.classList.add('card');
-                card.setAttribute('data-flipped', 'false');
-
-                const cardBack = document.createElement('div');
-                cardBack.classList.add('card-back');
-
-                const cardFront = document.createElement('div');
-                cardFront.classList.add('card-front');
-                cardFront.classList.add('card-front-6x6');
-
                 // const cardNumber = document.createElement('h2');
                 // cardNumber.textContent = numbers[i];
-
-                
-                const cardIcon = document.createElement('i');
-                cardIcon.classList.add('fas', icons[i]);
-
-                cardFront.appendChild(cardIcon);
                 // cardFront.appendChild(cardNumber);
                 body.append(page4x4);
                 page4x4.append(gridContainer);
-                page4x4.append(status);
+                page4x4.append(status)
+                card.appendChild(cardBack);
+                card.appendChild(cardFront);
+                gridItem.appendChild(card);
+                gridContainer.appendChild(gridItem);
+                if(isIcon){
+                    const cardIcon = document.createElement('i');
+                    cardIcon.classList.add('fas', icons[i]);
+                    cardFront.appendChild(cardIcon);
+                    localStorage.setItem('gridCreated', '4x4grid-icons');
+                    // flipCard();
+                    console.log(isIcon)
+                }else{
+                    const cardNumber = document.createElement('h2');
+                    cardNumber.textContent = numbers[i];
+                    cardFront.appendChild(cardNumber);
+                    localStorage.setItem('gridCreated', '4x4grid');
+                    // flipCard();
+                }
+            }
+            // multiplayerStatus(numberOfPlayerp);
+        }else if(numPairs === value6x6){
+            for (let i = 0; i < numPairs * 2; i++) {
+                gridContainer.classList.add('grid-container-6x6');
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+                gridItem.classList.add('grid-item-6x6');
+                
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.setAttribute('data-flipped', 'false');
+        
+                const cardBack = document.createElement('div');
+                cardBack.classList.add('card-back');
+        
+                const cardFront = document.createElement('div');
+                cardFront.classList.add('card-front');
+                cardFront.classList.add('card-front-6x6');
+        
+                if(isIcon){
+                    const cardIcon = document.createElement('i');
+                    cardIcon.classList.add('fas', icons[i]);
+                    cardFront.appendChild(cardIcon);
+                    localStorage.setItem('gridCreated', '6x6grid-icons');
+                    // flipCard();
+                    console.log(isIcon)
+                }else{
+                    const cardNumber = document.createElement('h2');
+                    cardNumber.textContent = numbers[i];
+                    cardFront.appendChild(cardNumber);
+                    localStorage.setItem('gridCreated', '6x6grid');
+                    // flipCard();
+                }
+                body.append(page4x4);
+                page4x4.append(gridContainer);
+                page4x4.append(status)
                 card.appendChild(cardBack);
                 card.appendChild(cardFront);
                 gridItem.appendChild(card);
                 gridContainer.appendChild(gridItem);
             }
-                flipCard();
-                localStorage.setItem('gridCreated', '6x6grid-icons');
         }
-            
-
-    }else if(numPairs === value4x4 && isIcon){
-        
-    }
+        flipCard();
 }
 
+
+const multiplayerStatus = (numberOfPlayerp) =>{
+    const status = document.querySelector('.status');
+    if(numberOfPlayerp < 2){
+        let statusCount = `
+        <div class="count" id="time">
+        <h3>Time</h3>
+        <div class="timer">
+        <label id="minutes">00</label> <label for="">:</label> <label id="seconds">00</label>
+        </div>
+        </div>
+        <div class="count" id="moves">
+        <h3>Moves</h3>
+        <p id = "move-count">0</p>
+        </div>`;
+        
+        status.innerHTML = statusCount;
+    }else{
+        for(let i = 1; i <= numberOfPlayerp; i++){
+            status.style.width = 'auto'
+            const player = document.createElement('div');
+            player.classList.add('player');
+            
+            const playerNum = document.createElement('p');
+            playerNum.innerText = 'player '+ i;
+            
+            const playerWinCount = document.createElement('h2');
+            playerWinCount.innerText = '0 ';
+            
+            status.append(player);
+            player.append(playerNum);
+            player.append(playerWinCount);
+        }
+    }
+
+}
+    
 
 // // function generating the random pair of numbers
 function generateRandomPairs(numPairs) {
