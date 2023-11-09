@@ -9,6 +9,10 @@ const value4x4 = document.getElementById('4x4-grid').value;
 const value6x6 = document.getElementById('6x6-grid').value;
 const number4x4 = document.getElementById('theme-numbers');
 const icon4x4 = document.getElementById('theme-icons');
+const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
+
+let activePlayer = 1;
+let numberOfPlayers;
 
 let isIcon;
 let seconds = 0;
@@ -21,9 +25,9 @@ console.log(icon4x4)
 const setupFor4Grid = () =>{
     // const checked = document.querySelectorAll('input[type = "radio"]:checked')
     startGame.addEventListener('click', ()=>{
-    
+        
         const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
-    
+        
         const isNumbers = Array.from(checkedRadios).some(radio => radio.value === 'numbers');
         const isIcons = Array.from(checkedRadios).some(radio => radio.value === 'icons');
         const isOnePlayer = Array.from(checkedRadios).some(radio => radio.value === '1');
@@ -38,12 +42,16 @@ const setupFor4Grid = () =>{
                 createCards(value4x4);
                 if(isOnePlayer){
                     multiplayerStatus(1)
+                    console.log(numberOfPlayers)
                 }else if(isTwoPlayers){
                     multiplayerStatus(2)
+                    console.log(numberOfPlayers)
                 }else if(isThreePlayers){
                     multiplayerStatus(3)
+                    console.log(numberOfPlayers)
                 }else if(isFourPlayers){
                     multiplayerStatus(4)
+                    console.log(numberOfPlayers)
                 }
             }else{
                 isIcon = true;
@@ -73,6 +81,7 @@ const setupFor4Grid = () =>{
             // location.reload();
         }else if(is6x6Grid){
             if(isNumbers){
+                console.log(numberOfPlayers);
                 isIcon = false;
                 createCards(value6x6);
                 if(isOnePlayer){
@@ -109,6 +118,7 @@ const setupFor4Grid = () =>{
             }
         }
     });
+
 }
 
 // function for the click and flip events
@@ -124,6 +134,7 @@ const flipCard = () => {
                 card.querySelector('.card-front').style.transform = 'rotateY(0deg)';
                 card.querySelector('.card-back').style.transform = 'rotateY(180deg)';
                 flippedCards.push(card);
+                // console.log(numberOfPlayers);
 
                 const childNode = document.querySelectorAll('.card-front');
                 const eachChild = Array.from(childNode).map(child => {
@@ -137,9 +148,10 @@ const flipCard = () => {
                     const number1 = card1.querySelector('h2').innerText;
                     const number2 = card2.querySelector('h2').innerText;
                     const moves = document.getElementById('move-count')
-                    movesCount++; // Increment the moves count
                    
-                    moves.innerText = movesCount;
+                    movesCount++; // Increment the moves count
+                    // moves.innerText = movesCount;
+
                     if (number1 === number2) {
                         // Matching pair, keep cards flipped
                         flippedCards = [];
@@ -159,6 +171,9 @@ const flipCard = () => {
                             card2.querySelector('.card-back').style.transform = 'rotateY(0deg)';
                             flippedCards = [];
                             clickable = true; // Enable clicks
+                           
+                           // console.log(numberOfPlayers);
+                            switchToNextPlayer();
                         }, 1000);
                     }
                 } else if (flippedCards.length === 2) {
@@ -191,6 +206,8 @@ const flipCard = () => {
                             card2.querySelector('.card-back').style.transform = 'rotateY(0deg)';
                             flippedCards = [];
                             clickable = true; // Enable clicks
+                            switchToNextPlayer();
+
                         }, 1000);
                     }
                 };
@@ -450,9 +467,8 @@ function createCards(numPairs) {
         }
         flipCard();
 }
-
-
 const multiplayerStatus = (numberOfPlayerp) =>{
+    numberOfPlayers = numberOfPlayerp;
     const status = document.querySelector('.status');
     if(numberOfPlayerp < 2){
         let statusCount = `
@@ -483,11 +499,24 @@ const multiplayerStatus = (numberOfPlayerp) =>{
             status.append(player);
             player.append(playerNum);
             player.append(playerWinCount);
+            if (i === activePlayer){
+                player.classList.add('active-player');
+                playerNum.classList.add('active-player');
+                playerWinCount.classList.add('active-player');
+            }
         }
     }
 
 }
     
+const switchToNextPlayer = () => {
+    document.querySelector('.player.active-player').classList.remove('active-player');
+    activePlayer = (activePlayer % numberOfPlayers) + 1;
+    document.querySelector('.player:nth-child(' + activePlayer + ')').classList.add('active-player');
+    console.log(activePlayer);
+    console.log(numberOfPlayers);
+};
+
 
 // // function generating the random pair of numbers
 function generateRandomPairs(numPairs) {
@@ -597,8 +626,8 @@ function startTimer() {
         let secondsElement = document.getElementById("seconds");
 
         // Update the text content of the minute and second elements
-        minutesElement.textContent = (min < 10 ? "0" + min : min);
-        secondsElement.textContent = (sec < 10 ? "0" + sec : sec);
+        //minutesElement.textContent = (min < 10 ? "0" + min : min);
+        //secondsElement.textContent = (sec < 10 ? "0" + sec : sec);
 
          
     };
@@ -695,6 +724,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     
     // endGamePopup(seconds);
     setupFor4Grid();
+
 
     if (gridCreated === '4x4grid') {
         // The grid has been created, so show it

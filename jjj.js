@@ -2,7 +2,7 @@ const body = document.body;
 let timerStarted = false; // Variable to track if the timer has started
 let flippedCards = [];
 let isIcon = true;
-let numberOfPlayers = 3;
+let numberOfPlayers = 5;
 let activePlayer = 1;
 let playerScores = [];
 
@@ -113,6 +113,7 @@ const multiplayerStatus = (numberOfPlayers) =>{
         }
     }
 }
+
 console.log(playerScores[1])
 const switchToNextPlayer = () => {
     document.querySelector('.player.active-player').classList.remove('active-player');
