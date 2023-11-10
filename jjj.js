@@ -13,6 +13,7 @@ function createRandomCardPairs(numPairs) {
 
     for (let i = 0; i < numberOfPlayers; i++) {
         playerScores[i] = 0;
+        console.log(playerScores)
     }
 
     const status = document.createElement('div');
@@ -94,7 +95,7 @@ const multiplayerStatus = (numberOfPlayers) =>{
             
             status.style.width = 'auto'
             const player = document.createElement('div');
-            player.classList.add('player');
+            player.classList.add('single-player');
             
             const playerNum = document.createElement('p');
             playerNum.innerText = 'player '+ i;
@@ -116,9 +117,9 @@ const multiplayerStatus = (numberOfPlayers) =>{
 
 console.log(playerScores[1])
 const switchToNextPlayer = () => {
-    document.querySelector('.player.active-player').classList.remove('active-player');
+    document.querySelector('.single-player.active-player').classList.remove('active-player');
     activePlayer = (activePlayer % numberOfPlayers) + 1;
-    document.querySelector('.player:nth-child(' + activePlayer + ')').classList.add('active-player');
+    document.querySelector('.single-player:nth-child(' + activePlayer + ')').classList.add('active-player');
 };
 
 

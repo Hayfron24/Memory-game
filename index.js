@@ -13,6 +13,7 @@ const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
 
 let activePlayer = 1;
 let numberOfPlayers;
+let playerScores = [];
 
 let isIcon;
 let seconds = 0;
@@ -52,6 +53,13 @@ const setupFor4Grid = () =>{
                 }else if(isFourPlayers){
                     multiplayerStatus(4)
                     console.log(numberOfPlayers)
+                }
+
+                if(numberOfPlayers > 1){
+                    for (let i = 0; i < numberOfPlayers; i++) {
+                        playerScores[i] = 0;
+                        console.log(playerScores)
+                    }
                 }
             }else{
                 isIcon = true;
@@ -148,18 +156,31 @@ const flipCard = () => {
                     const number1 = card1.querySelector('h2').innerText;
                     const number2 = card2.querySelector('h2').innerText;
                     const moves = document.getElementById('move-count')
-                   
-                    movesCount++; // Increment the moves count
-                    // moves.innerText = movesCount;
+                   if(numberOfPlayers < 2){
+                       movesCount++; // Increment the moves count
+                       moves.innerText = movesCount;
+                   }
 
                     if (number1 === number2) {
                         // Matching pair, keep cards flipped
                         flippedCards = [];
                         card1.querySelector('.card-front').style.background = '#FDA214';
                         card2.querySelector('.card-front').style.background = '#FDA214';
+                        
+                    
+                            const playerWinCount = document.querySelector('.single-player.active-player h2')
+                            playerScores[activePlayer - 1]++; // Subtract 1 because player numbers are 1-based     
+    
+                            playerWinCount.innerText = playerScores[activePlayer - 1];
+    
+                  
+                        
                         setTimeout(() => {
                             clickable = true; // Enable clicks after a short delay
                         }, 1000); 
+                        console.log(activePlayer, 'qwqwdqwd')
+                        console.log(playerWinCount, 'qwqwdqwd')
+                        console.log(playerScores, 'qwqwdqwd')
                     } else {
                         // Not a matching pair, unflip the cards
                         setTimeout(() => {
@@ -173,7 +194,9 @@ const flipCard = () => {
                             clickable = true; // Enable clicks
                            
                            // console.log(numberOfPlayers);
-                            switchToNextPlayer();
+                           if(numberOfPlayers > 1){
+                                switchToNextPlayer();
+                            }
                         }, 1000);
                     }
                 } else if (flippedCards.length === 2) {
@@ -206,15 +229,18 @@ const flipCard = () => {
                             card2.querySelector('.card-back').style.transform = 'rotateY(0deg)';
                             flippedCards = [];
                             clickable = true; // Enable clicks
-                            switchToNextPlayer();
+                            if(numberOfPlayers > 1){
+                                switchToNextPlayer();
+                            }
 
                         }, 1000);
                     }
                 };
-                
-                if (!timerStarted) {
-                    startTimer();
-                    timerStarted = true;
+                if(numberOfPlayers < 2){
+                    if (!timerStarted) {
+                        startTimer();
+                        timerStarted = true;
+                    }
                 }
                 if (areAllCardsFlipped()) {
                     clearInterval(timeInterval); // Stop the timer if all cards are flipped
@@ -362,6 +388,7 @@ function createCards(numPairs) {
     const gridContainer = document.createElement('div')
     gridContainer.classList.add('grid-container')
 
+
     const status = document.createElement('div')
     status.classList.add('status')
     // let statusCount = `
@@ -488,7 +515,7 @@ const multiplayerStatus = (numberOfPlayerp) =>{
         for(let i = 1; i <= numberOfPlayerp; i++){
             status.style.width = 'auto'
             const player = document.createElement('div');
-            player.classList.add('player');
+            player.classList.add('single-player');
             
             const playerNum = document.createElement('p');
             playerNum.innerText = 'player '+ i;
@@ -510,11 +537,10 @@ const multiplayerStatus = (numberOfPlayerp) =>{
 }
     
 const switchToNextPlayer = () => {
-    document.querySelector('.player.active-player').classList.remove('active-player');
+    document.querySelector('.single-player.active-player').classList.remove('active-player');
     activePlayer = (activePlayer % numberOfPlayers) + 1;
-    document.querySelector('.player:nth-child(' + activePlayer + ')').classList.add('active-player');
-    console.log(activePlayer);
-    console.log(numberOfPlayers);
+    document.querySelector('.single-player:nth-child(' + activePlayer + ')').classList.add('active-player');
+    // console.log(numberOfPlayers);
 };
 
 
@@ -626,8 +652,8 @@ function startTimer() {
         let secondsElement = document.getElementById("seconds");
 
         // Update the text content of the minute and second elements
-        //minutesElement.textContent = (min < 10 ? "0" + min : min);
-        //secondsElement.textContent = (sec < 10 ? "0" + sec : sec);
+        minutesElement.textContent = (min < 10 ? "0" + min : min);
+        secondsElement.textContent = (sec < 10 ? "0" + sec : sec);
 
          
     };
