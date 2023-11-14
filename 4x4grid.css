@@ -236,6 +236,13 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+.popup-content.multiplayer-popup{
+    /* width: 40.875rem; */
+    max-height: 43.875rem;
+    /* background-color: red; */
+}
+
 .popup-content h1{
     color: #152938;
     font-size: 3rem;
@@ -258,6 +265,7 @@ body{
     justify-content: space-between;
     align-items: center;
 }
+
 .info p{
     font-size: 1.125rem;
     padding: 0 2.5rem 0;
@@ -362,7 +370,7 @@ body{
     .btn-container{
         flex-direction: column;
         height: auto;
-        margin: .7rem;
+        margin: .5rem;
     }
     .info p{
         font-size: 0.8125rem;
@@ -374,9 +382,10 @@ body{
     }
     #popup-restart,#popup-new-game{
         font-size: 1.125rem;   
+        margin: 0.5rem;
     }
     #popup-restart{
-        margin-bottom: 1rem;
+        margin-bottom: .5rem;
     }
 
     /* menu popup */

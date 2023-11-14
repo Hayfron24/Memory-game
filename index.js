@@ -55,12 +55,12 @@ const setupFor4Grid = () =>{
                     console.log(numberOfPlayers)
                 }
 
-                if(numberOfPlayers > 1){
-                    for (let i = 0; i < numberOfPlayers; i++) {
-                        playerScores[i] = 0;
-                        console.log(playerScores)
-                    }
-                }
+                // if(numberOfPlayers > 1){
+                //     for (let i = 0; i < numberOfPlayers; i++) {
+                //         playerScores[i] = 0;
+                //         console.log(playerScores)
+                //     }
+                // }
             }else{
                 isIcon = true;
                 createCards(value4x4);
@@ -167,20 +167,21 @@ const flipCard = () => {
                         card1.querySelector('.card-front').style.background = '#FDA214';
                         card2.querySelector('.card-front').style.background = '#FDA214';
                         
-                    
-                            const playerWinCount = document.querySelector('.single-player.active-player h2')
-                            playerScores[activePlayer - 1]++; // Subtract 1 because player numbers are 1-based     
-    
-                            playerWinCount.innerText = playerScores[activePlayer - 1];
-    
+                            if (numberOfPlayers > 1) {       
+                                const playerWinCount = document.querySelector('.single-player.active-player h2')
+                                playerScores[activePlayer - 1]++; // Subtract 1 because player numbers are 1-based     
+        
+                                playerWinCount.innerText = playerScores[activePlayer - 1];
+                                console.log(numberOfPlayers);
+                            }
                   
                         
                         setTimeout(() => {
                             clickable = true; // Enable clicks after a short delay
                         }, 1000); 
-                        console.log(activePlayer, 'qwqwdqwd')
-                        console.log(playerWinCount, 'qwqwdqwd')
-                        console.log(playerScores, 'qwqwdqwd')
+                        //console.log(activePlayer, 'qwqwdqwd')
+                        //console.log(playerWinCount, 'qwqwdqwd')
+                        //console.log(playerScores, 'qwqwdqwd')
                     } else {
                         // Not a matching pair, unflip the cards
                         setTimeout(() => {
@@ -236,15 +237,20 @@ const flipCard = () => {
                         }, 1000);
                     }
                 };
+                
+                // console.log(numberOfPlayers);
                 if(numberOfPlayers < 2){
                     if (!timerStarted) {
                         startTimer();
                         timerStarted = true;
                     }
-                }
-                if (areAllCardsFlipped()) {
-                    clearInterval(timeInterval); // Stop the timer if all cards are flipped
-                    endGamePopup(seconds);
+                    if (areAllCardsFlipped()) {
+                        clearInterval(timeInterval); // Stop the timer if all cards are flipped
+                        endGamePopup(seconds);
+                    }
+                }else if(areAllCardsFlipped()){
+                    // alert('multiplayer mode!');
+                    endGameMultiPopup(numberOfPlayers);
                 }
             }
         });
@@ -494,6 +500,8 @@ function createCards(numPairs) {
         }
         flipCard();
 }
+
+
 const multiplayerStatus = (numberOfPlayerp) =>{
     numberOfPlayers = numberOfPlayerp;
     const status = document.querySelector('.status');
@@ -512,6 +520,14 @@ const multiplayerStatus = (numberOfPlayerp) =>{
         
         status.innerHTML = statusCount;
     }else{
+        // Check if playerScores is not already initialized
+        if (!playerScores.length) {
+            // Initialize playerScores only if it hasn't been done yet
+            for (let i = 0; i < numberOfPlayers; i++) {
+                playerScores[i] = 0;
+            }
+        }
+
         for(let i = 1; i <= numberOfPlayerp; i++){
             status.style.width = 'auto'
             const player = document.createElement('div');
@@ -523,6 +539,7 @@ const multiplayerStatus = (numberOfPlayerp) =>{
             const playerWinCount = document.createElement('h2');
             playerWinCount.innerText = '0 ';
             
+            
             status.append(player);
             player.append(playerNum);
             player.append(playerWinCount);
@@ -533,6 +550,53 @@ const multiplayerStatus = (numberOfPlayerp) =>{
             }
         }
     }
+    
+        // Save multiplayer status to localStorage
+        localStorage.setItem('multiplayerStatus', JSON.stringify({
+            numberOfPlayers,
+            activePlayer
+        }));
+}
+
+
+const endGameMultiPopup = (numberOfPlayers) => {
+    const popupContainer = document.createElement('div')
+    popupContainer.classList.add('popup-container');
+    
+    const popUp = document.createElement('div')
+    popUp.classList.add('popup-content');
+    popUp.classList.add('multiplayer-popup');
+
+    const h1 = document.createElement('h1');
+    h1.innerText = `Player ${playerScores.max} wins!`;
+    
+    const gameOverNB = document.createElement('p');
+    gameOverNB.innerText = 'Game over! Here are the results…';
+
+    popUp.append(h1, gameOverNB)
+    
+    for (let i = 1; i <= numberOfPlayers; i++) {
+        const playerScore = document.createElement('div');
+        playerScore.classList.add('info');
+
+        const player = document.createElement('p')
+        player.innerText = 'Player ' + i;
+
+        const score = document.createElement('h1')
+        score.innerText = playerScores[i - 1] + ' Pairs'; 
+
+
+        
+        playerScore.append(player,score);
+        popUp.append(playerScore); 
+    }
+    
+    
+    
+    
+    popupContainer.append(popUp);
+    body.append(popupContainer);
+    // btnContainer.append(popRestartBtn, popNewGameBtn);
 
 }
     
@@ -750,14 +814,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     
     // endGamePopup(seconds);
     setupFor4Grid();
-
-
+    
+    
     if (gridCreated === '4x4grid') {
         // The grid has been created, so show it
         console.log('All conditions are true');
         body.classList.add('new-color');
         setup.classList.add('display');
-        createCards(value4x4); 
+        createCards(value4x4);
     }else if (gridCreated === '4x4grid-icons') {
         // The grid has been created, so show it
         isIcon = true;
@@ -776,6 +840,14 @@ document.addEventListener('DOMContentLoaded',()=>{
         body.classList.add('new-color');
         setup.classList.add('display');
         createCards(value6x6);
+    }
+
+    const multiplayerStatusData = localStorage.getItem('multiplayerStatus');
+
+    if (multiplayerStatusData) {
+        let { numberOfPlayers, activePlayer } = JSON.parse(multiplayerStatusData);
+        activePlayer = activePlayer; // Update the global variable
+        multiplayerStatus(numberOfPlayers); // Call the function to set up the multiplayer status
     }
     restartGame()
     newGame();

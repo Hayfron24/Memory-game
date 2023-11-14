@@ -2,7 +2,7 @@ const body = document.body;
 let timerStarted = false; // Variable to track if the timer has started
 let flippedCards = [];
 let isIcon = true;
-let numberOfPlayers = 5;
+let numberOfPlayers = 4;
 let activePlayer = 1;
 let playerScores = [];
 
@@ -406,6 +406,49 @@ const menuBtn = () =>{
     })
 };
 
+
+const endGameMultiPopup = (numberOfPlayers) => {
+    const popupContainer = document.createElement('div')
+    popupContainer.classList.add('popup-container');
+    
+    const popUp = document.createElement('div')
+    popUp.classList.add('popup-content');
+    popUp.classList.add('multiplayer-popup');
+
+    const h1 = document.createElement('h1');
+    h1.innerText = `Player ${playerScores.max} wins!`;
+    
+    const gameOverNB = document.createElement('p');
+    gameOverNB.innerText = 'Game over! Here’s how you got on…';
+
+    popUp.append(h1, gameOverNB)
+    
+    for (let i = 1; i <= numberOfPlayers; i++) {
+        const playerScore = document.createElement('div');
+        playerScore.classList.add('info');
+
+        const player = document.createElement('p')
+        player.innerText = 'Player ' + i;
+
+        const score = document.createElement('h1')
+        score.innerText = playerScores[i - 1] + ' Pairs'; 
+
+
+        
+        playerScore.append(player,score);
+        popUp.append(playerScore); 
+    }
+    
+    
+    
+    
+    popupContainer.append(popUp);
+    body.append(popupContainer);
+    // btnContainer.append(popRestartBtn, popNewGameBtn);
+
+}
+
+
 const menuRestart = ()=>{
     // const popupRestart = document.getElementById('popup-restart');
     const menuRestart = document.getElementById('menu-restart');
@@ -445,6 +488,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         menuBtn();
         // console.log('jjfgj')
     }
+    endGameMultiPopup(numberOfPlayers);
     // menuRestart();
     // resumeBtn();
     // flipCard();
