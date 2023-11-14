@@ -732,7 +732,7 @@ function startTimer() {
 }
 
 
-let x = window.matchMedia("(max-width: 420px)")
+let x = window.matchMedia("(max-width: 430px)")
 
 const mobileMenu = () =>{
     const menuContainer = document.createElement('div');

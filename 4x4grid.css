@@ -306,7 +306,7 @@ body{
     background: #6395B8;
 }
 
-@media (min-width: 320px) and (max-width: 428px){
+@media (min-width: 320px) and (max-width: 430px){
    .logo{
         font-size: 1.5rem;
    }

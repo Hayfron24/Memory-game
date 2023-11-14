@@ -106,7 +106,7 @@ button:hover{
 
 /* Mobile media query */
 
-@media (min-width: 320px) and (max-width: 420px){
+@media (min-width: 320px) and (max-width: 430px){
     .logo-setup{
         font-size: 2rem;
         margin-bottom: 3rem;
