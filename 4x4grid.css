@@ -338,6 +338,20 @@ body{
     .status{
         width: 85%;
     }
+    .single-player{
+        width: 4rem;
+        height: 4.375rem;
+        flex-direction: column;
+        padding: 0.5rem;
+        /* display: block; */
+    }
+
+    .single-player p{
+        font-size: 0.9375rem;
+    }
+    .single-player h2{
+        font-size: 1.5rem;
+    }
     .count{
         width: 9.4375rem;
         height: 4.375rem;

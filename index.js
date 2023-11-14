@@ -534,11 +534,14 @@ const multiplayerStatus = (numberOfPlayerp) =>{
             player.classList.add('single-player');
             
             const playerNum = document.createElement('p');
-            playerNum.innerText = 'player '+ i;
-            
+            if (x.matches) {
+                playerNum.innerText = 'P'+ i;
+            }else{
+                playerNum.innerText = 'player '+ i;
+            }
             const playerWinCount = document.createElement('h2');
             playerWinCount.innerText = '0 ';
-            
+    
             
             status.append(player);
             player.append(playerNum);
