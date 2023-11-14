@@ -84,6 +84,7 @@ const setupFor4Grid = () =>{
             if(x.matches){
                 mobileMenu();
                 menuBtn();
+               
                 // console.log('jjfgj')
             }
             // location.reload();
@@ -208,14 +209,29 @@ const flipCard = () => {
                     // const number2 = card2.querySelector('h2').innerText;
                     const icon2 = card2.querySelector('i').classList[1]; // Get the Font Awesome class
                     const moves = document.getElementById('move-count')
-                    movesCount++; // Increment the moves count
+                        
 
-                    moves.innerText = movesCount;
+                        if(numberOfPlayers < 2){
+                            movesCount++; // Increment the moves count
+                            moves.innerText = movesCount;
+                        };
+
+
                     if ( icon1 === icon2) {
                         // Matching pair, keep cards flipped
                         flippedCards = [];
                         card1.querySelector('.card-front').style.background = '#FDA214';
                         card2.querySelector('.card-front').style.background = '#FDA214';
+                        
+                        if (numberOfPlayers > 1) {       
+                            const playerWinCount = document.querySelector('.single-player.active-player h2')
+                            playerScores[activePlayer - 1]++; // Subtract 1 because player numbers are 1-based     
+    
+                            playerWinCount.innerText = playerScores[activePlayer - 1];
+                            console.log(numberOfPlayers);
+                        }
+              
+                        
                         setTimeout(() => {
                             clickable = true; // Enable clicks after a short delay
                         }, 1000);
@@ -739,7 +755,7 @@ const mobileMenu = () =>{
     menuContainer.classList.add('menu-container');
     
     const menu = document.createElement('div');
-    menu.classList.add('popup-content');
+    // menu.classList.add('popup-content');
     menu.classList.add('menu');
 
     const btnContainer = document.createElement('div');
@@ -764,6 +780,7 @@ const mobileMenu = () =>{
     menu.append(btnContainer);
     btnContainer.append(menuRestart,menuNewGame,menuResume)
     // menuRestart();
+
 }
 
 const menuBtn = () =>{
@@ -771,6 +788,7 @@ const menuBtn = () =>{
     const menuContainer = document.querySelector('.menu-container');
     menuBtn.addEventListener('click', () =>{
         // mobileMenu();
+        
         menuContainer.classList.toggle('show')
         menuRestart();
         menuNewGame();
@@ -809,7 +827,7 @@ const resumeBtn = () =>{
     resumeBtn.addEventListener('click', () =>{
         menuContainer.classList.remove('show');
     })
-
+    
 }
 
 // content displayed when the paeg is loaded
@@ -857,6 +875,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(x.matches){
         mobileMenu();
         menuBtn();
+        
         // console.log('jjfgj')
     }
 
