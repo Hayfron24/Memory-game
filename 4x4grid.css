@@ -132,6 +132,7 @@ body{
     width: 33.2rem;
     display: flex;
     justify-content: space-between;
+    margin-top: 3rem;
 }
 .player{
     width: 15.9375rem;
@@ -149,7 +150,7 @@ body{
     height: 4.5rem;
     background: #DFE7EC;
     border-radius: 0.625rem;
-    margin: 5rem 2rem 0 0;
+    margin: 1rem;
     padding: 1rem;
     display: flex;
     align-items: center;
@@ -187,7 +188,7 @@ body{
     height: 4.5rem;
     background: #DFE7EC;
     border-radius: 0.625rem;
-    margin-top: 5rem;
+    margin-top: 2rem;
 }
 .count h3{
     color: #7191A5;
