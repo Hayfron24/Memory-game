@@ -34,7 +34,8 @@ const setupFor4Grid = () =>{
         const isOnePlayer = Array.from(checkedRadios).some(radio => radio.value === '1');
         const isTwoPlayers = Array.from(checkedRadios).some(radio => radio.value === '2');
         const isThreePlayers = Array.from(checkedRadios).some(radio => radio.value === '3');
-        const isFourPlayers = Array.from(checkedRadios).some(radio => radio.value === '4');
+        const isFourPlayers = Array.from 
+        (checkedRadios).some(radio => radio.value === '4');
         const is4x4Grid = Array.from(checkedRadios).some(radio => radio.id === '4x4-grid');
         const is6x6Grid = Array.from(checkedRadios).some(radio => radio.id ==='6x6-grid');
         if (is4x4Grid) {
@@ -43,7 +44,8 @@ const setupFor4Grid = () =>{
                 createCards(value4x4);
                 if(isOnePlayer){
                     multiplayerStatus(1)
-                    console.log(numberOfPlayers)
+                    console.log(numberOfPlayer
+                        )
                 }else if(isTwoPlayers){
                     multiplayerStatus(2)
                     console.log(numberOfPlayers)
@@ -127,6 +129,8 @@ const setupFor4Grid = () =>{
             }
         }
     });
+    // endGameMultiPopup(numberOfPlayers);
+
 
 }
 
@@ -587,10 +591,31 @@ const endGameMultiPopup = (numberOfPlayers) => {
     popUp.classList.add('multiplayer-popup');
 
     const h1 = document.createElement('h1');
-    h1.innerText = `Player ${playerScores.max} wins!`;
+
+    const maxScore = Math.max(...playerScores);
+    //const maxScoreIndex = playerScores.indexOf(Math.max(...playerScores));
+    const winners = playerScores.reduce((acc, score, index) => {
+        if (score === maxScore) {
+            acc.push(index + 1);
+        }
+        return acc;
+    }, []);
+
+     if (winners.length === 1) {
+        h1.innerText = `Player ${winners[0]} wins!`;
+    } else {
+        h1.innerText = "It's a tie!";
+    }
+
+    // console.log(maxNumber);
+
+   
+
+    //h1.innerText = `Player ${maxScoreIndex + 1} wins!`;
     
     const gameOverNB = document.createElement('p');
     gameOverNB.innerText = 'Game over! Here are the results…';
+
 
     popUp.append(h1, gameOverNB)
     
@@ -604,18 +629,39 @@ const endGameMultiPopup = (numberOfPlayers) => {
         const score = document.createElement('h1')
         score.innerText = playerScores[i - 1] + ' Pairs'; 
 
-
+        if (winners.includes(i)) {
+            playerScore.style.background = '#152938';
+            player.innerText += '{Winner!}'
+            player.style.color = '#fff';
+            score.style.color = '#fff';
+        } 
         
         playerScore.append(player,score);
         popUp.append(playerScore); 
     }
+
+    const btnContainer = document.createElement('div');
+    btnContainer.classList.add('btn-container');
     
+    const popRestartBtn = document.createElement('button');
+    popRestartBtn.classList.add('popup-btn');
+    popRestartBtn.innerText = 'Restart'
+    popRestartBtn.id = 'popup-restart';
     
+    const popNewGameBtn = document.createElement('button');
+    popNewGameBtn.classList.add('popup-btn');
+    popNewGameBtn.innerText = 'Setup New Game';
+    popNewGameBtn.id = 'popup-new-game';
     
-    
+    popUp.append(btnContainer)
+    btnContainer.append(popRestartBtn, popNewGameBtn)
     popupContainer.append(popUp);
     body.append(popupContainer);
     // btnContainer.append(popRestartBtn, popNewGameBtn);
+
+    
+    popupNewGame();
+    popupRestart();
 
 }
     
@@ -744,7 +790,6 @@ function startTimer() {
     // Set the timer to update every second
     timeInterval = setInterval(handler, 1000);
 
-
 }
 
 
@@ -837,7 +882,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     setupFor4Grid();
     
     
-    if (gridCreated === '4x4grid') {
+    if (gridCreated === '4x4grid') { 
         // The grid has been created, so show it
         console.log('All conditions are true');
         body.classList.add('new-color');
