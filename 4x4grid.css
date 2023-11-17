@@ -371,6 +371,12 @@ body{
         width: 20.4375rem;
         height: 23.5rem;
     }
+
+    .popup-content.multiplayer-popup{
+        /* width: 40.875rem; */
+        height: 30.5rem;
+        /* background-color: red; */
+    }
     .popup-content h1{
         font-size: 1.5rem;
     }

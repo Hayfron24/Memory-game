@@ -44,8 +44,7 @@ const setupFor4Grid = () =>{
                 createCards(value4x4);
                 if(isOnePlayer){
                     multiplayerStatus(1)
-                    console.log(numberOfPlayer
-                        )
+                    console.log(numberOfPlayers)
                 }else if(isTwoPlayers){
                     multiplayerStatus(2)
                     console.log(numberOfPlayers)
@@ -433,7 +432,7 @@ function createCards(numPairs) {
 
     const numbers = generateRandomPairs(numPairs);
     const icons = generateRandomIconPairs(numPairs * 2);
-    let numberOfPlayerp = 2 ;
+    // let numberOfPlayerp = 2 ;
 
 
         if(numPairs=== value4x4){
@@ -582,70 +581,174 @@ const multiplayerStatus = (numberOfPlayerp) =>{
 }
 
 
+// const endGameMultiPopup = (numberOfPlayers) => {
+//     const popupContainer = document.createElement('div')
+//     popupContainer.classList.add('popup-container');
+    
+//     const popUp = document.createElement('div')
+//     popUp.classList.add('popup-content');
+//     popUp.classList.add('multiplayer-popup');
+
+//     const h1 = document.createElement('h1');
+
+//     // const maxScore = Math.max(...playerScores);
+
+    
+//     const maxScoreIndex = playerScores.indexOf(Math.max(...playerScores));
+//     if (playerScores.filter(score => score === playerScores[maxScoreIndex]).length === 1) {
+//         h1.innerText = `Player ${maxScoreIndex + 1} wins!`;
+//     } else {
+//         h1.innerText = "It's a tie!";
+//     }
+
+//     // const winners = playerScores.reduce((acc, score, index) => {
+//     //     if (score === maxScore) {
+//     //         acc.push(index + 1);
+//     //     }
+//     //     return acc;
+//     // }, []);
+
+//     // if (winners.length === 1) {
+//     //     h1.innerText = `Player ${winners[0]} wins!`;
+//     // } else {
+//     //     h1.innerText = "It's a tie!";
+//     // }
+
+//     // console.log(maxNumber);
+
+//     //h1.innerText = `Player ${maxScoreIndex + 1} wins!`;
+
+//     // Move the player with the highest score to the front
+//     const playersOrder = [maxScoreIndex, ...Array.from({ length: numberOfPlayers }, (_, i) => i).filter(i => i !== maxScoreIndex)];
+
+    
+//     const gameOverNB = document.createElement('p');
+//     gameOverNB.innerText = 'Game over! Here are the results…';
+
+
+//     popUp.append(h1, gameOverNB)
+    
+//     // for (let i = 1; i <= numberOfPlayers; i++) {
+//     //     const playerScore = document.createElement('div');
+//     //     playerScore.classList.add('info');
+
+//     //     const player = document.createElement('p')
+//     //     player.innerText = 'Player ' + i;
+
+//     //     const score = document.createElement('h1')
+//     //     score.innerText = playerScores[i - 1] + ' Pairs'; 
+
+//     //     if (winners.includes(i)) {
+//     //         playerScore.style.background = '#152938';
+//     //         player.innerText += '{Winner!}'
+//     //         player.style.color = '#fff';
+//     //         score.style.color = '#fff';
+//     //     } 
+        
+//     //     playerScore.append(player,score);
+//     //     popUp.append(playerScore); 
+//     // }
+//     for (const i of playersOrder) {
+//         const playerScore = document.createElement('div');
+//         playerScore.classList.add('info');
+
+//         const player = document.createElement('p');
+//         player.innerText = 'Player ' + (i + 1);
+
+//         const score = document.createElement('h1');
+//         score.innerText = playerScores[i] + ' Pairs'; 
+
+//         if (i === maxScoreIndex) {
+//             playerScore.style.background = '#152938';
+//             player.innerText += ' {Winner!}';
+//             player.style.color = '#fff';
+//             score.style.color = '#fff';
+//         } 
+        
+//         playerScore.append(player, score);
+//         popUp.append(playerScore); 
+//     }
+    
+//     const btnContainer = document.createElement('div');
+//     btnContainer.classList.add('btn-container');
+    
+//     const popRestartBtn = document.createElement('button');
+//     popRestartBtn.classList.add('popup-btn');
+//     popRestartBtn.innerText = 'Restart'
+//     popRestartBtn.id = 'popup-restart';
+    
+//     const popNewGameBtn = document.createElement('button');
+//     popNewGameBtn.classList.add('popup-btn');
+//     popNewGameBtn.innerText = 'Setup New Game';
+//     popNewGameBtn.id = 'popup-new-game';
+    
+//     popUp.append(btnContainer)
+//     btnContainer.append(popRestartBtn, popNewGameBtn)
+//     popupContainer.append(popUp);
+//     body.append(popupContainer);
+//     // btnContainer.append(popRestartBtn, popNewGameBtn);
+
+    
+//     popupNewGame();
+//     popupRestart();
+
+// }
+
 const endGameMultiPopup = (numberOfPlayers) => {
-    const popupContainer = document.createElement('div')
+    const popupContainer = document.createElement('div');
     popupContainer.classList.add('popup-container');
     
-    const popUp = document.createElement('div')
+    const popUp = document.createElement('div');
     popUp.classList.add('popup-content');
     popUp.classList.add('multiplayer-popup');
 
     const h1 = document.createElement('h1');
 
-    const maxScore = Math.max(...playerScores);
-    //const maxScoreIndex = playerScores.indexOf(Math.max(...playerScores));
-    const winners = playerScores.reduce((acc, score, index) => {
-        if (score === maxScore) {
-            acc.push(index + 1);
-        }
-        return acc;
-    }, []);
+    const sortedPlayers = playerScores
+        .map((score, index) => ({ index, score }))
+        .sort((a, b) => b.score - a.score || a.index - b.index);
 
-     if (winners.length === 1) {
-        h1.innerText = `Player ${winners[0]} wins!`;
+    const maxScore = sortedPlayers[0].score;
+    const winners = sortedPlayers.filter(player => player.score === maxScore);
+
+    if (winners.length === 1) {
+        h1.innerText = `Player ${winners[0].index + 1} wins!`;
     } else {
         h1.innerText = "It's a tie!";
     }
 
-    // console.log(maxNumber);
-
-   
-
-    //h1.innerText = `Player ${maxScoreIndex + 1} wins!`;
-    
     const gameOverNB = document.createElement('p');
     gameOverNB.innerText = 'Game over! Here are the results…';
 
+    popUp.append(h1, gameOverNB);
 
-    popUp.append(h1, gameOverNB)
-    
-    for (let i = 1; i <= numberOfPlayers; i++) {
+    sortedPlayers.forEach(({ index, score }) => {
         const playerScore = document.createElement('div');
         playerScore.classList.add('info');
 
-        const player = document.createElement('p')
-        player.innerText = 'Player ' + i;
+        const player = document.createElement('p');
+        player.innerText = 'Player ' + (index + 1);
 
-        const score = document.createElement('h1')
-        score.innerText = playerScores[i - 1] + ' Pairs'; 
+        const scoreElement = document.createElement('h1');
+        scoreElement.innerText = score + ' Pairs'; 
 
-        if (winners.includes(i)) {
+        if (winners.some(winner => winner.index === index)) {
             playerScore.style.background = '#152938';
-            player.innerText += '{Winner!}'
+            player.innerText += ' {Winner!}';
             player.style.color = '#fff';
-            score.style.color = '#fff';
+            scoreElement.style.color = '#fff';
         } 
         
-        playerScore.append(player,score);
+        playerScore.append(player, scoreElement);
         popUp.append(playerScore); 
-    }
+    });
 
     const btnContainer = document.createElement('div');
     btnContainer.classList.add('btn-container');
     
     const popRestartBtn = document.createElement('button');
     popRestartBtn.classList.add('popup-btn');
-    popRestartBtn.innerText = 'Restart'
+    popRestartBtn.innerText = 'Restart';
     popRestartBtn.id = 'popup-restart';
     
     const popNewGameBtn = document.createElement('button');
@@ -653,18 +756,17 @@ const endGameMultiPopup = (numberOfPlayers) => {
     popNewGameBtn.innerText = 'Setup New Game';
     popNewGameBtn.id = 'popup-new-game';
     
-    popUp.append(btnContainer)
-    btnContainer.append(popRestartBtn, popNewGameBtn)
+    btnContainer.append(popRestartBtn, popNewGameBtn);
+    popUp.append(btnContainer);
     popupContainer.append(popUp);
     body.append(popupContainer);
-    // btnContainer.append(popRestartBtn, popNewGameBtn);
 
-    
-    popupNewGame();
-    popupRestart();
-
+    // Add event listeners for the buttons
+    popRestartBtn.addEventListener('click', popupRestart);
+    popNewGameBtn.addEventListener('click', popupNewGame);
 }
-    
+
+
 const switchToNextPlayer = () => {
     document.querySelector('.single-player.active-player').classList.remove('active-player');
     activePlayer = (activePlayer % numberOfPlayers) + 1;

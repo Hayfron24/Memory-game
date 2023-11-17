@@ -407,6 +407,46 @@ const menuBtn = () =>{
 };
 
 
+// const endGameMultiPopup = (numberOfPlayers) => {
+//     const popupContainer = document.createElement('div')
+//     popupContainer.classList.add('popup-container');
+    
+//     const popUp = document.createElement('div')
+//     popUp.classList.add('popup-content');
+//     popUp.classList.add('multiplayer-popup');
+
+//     const h1 = document.createElement('h1');
+//     h1.innerText = `Player ${playerScores.max} wins!`;
+    
+//     const gameOverNB = document.createElement('p');
+//     gameOverNB.innerText = 'Game over! Here’s how you got on…';
+
+//     popUp.append(h1, gameOverNB)
+    
+//     for (let i = 1; i <= numberOfPlayers; i++) {
+//         const playerScore = document.createElement('div');
+//         playerScore.classList.add('info');
+
+//         const player = document.createElement('p')
+//         player.innerText = 'Player ' + i;
+
+//         const score = document.createElement('h1')
+//         score.innerText = playerScores[i - 1] + ' Pairs'; 
+
+
+        
+//         playerScore.append(player,score);
+//         popUp.append(playerScore); 
+//     }
+    
+    
+    
+    
+//     popupContainer.append(popUp);
+//     body.append(popupContainer);
+//     // btnContainer.append(popRestartBtn, popNewGameBtn);
+
+// }
 const endGameMultiPopup = (numberOfPlayers) => {
     const popupContainer = document.createElement('div')
     popupContainer.classList.add('popup-container');
@@ -416,38 +456,109 @@ const endGameMultiPopup = (numberOfPlayers) => {
     popUp.classList.add('multiplayer-popup');
 
     const h1 = document.createElement('h1');
-    h1.innerText = `Player ${playerScores.max} wins!`;
+
+    // const maxScore = Math.max(...playerScores);
+
+    
+    const maxScoreIndex = playerScores.indexOf(Math.max(...playerScores));
+    if (playerScores.filter(score => score === playerScores[maxScoreIndex]).length === 1) {
+        h1.innerText = `Player ${maxScoreIndex + 1} wins!`;
+    } else {
+        h1.innerText = "It's a tie!";
+    }
+
+    // const winners = playerScores.reduce((acc, score, index) => {
+    //     if (score === maxScore) {
+    //         acc.push(index + 1);
+    //     }
+    //     return acc;
+    // }, []);
+
+    // if (winners.length === 1) {
+    //     h1.innerText = `Player ${winners[0]} wins!`;
+    // } else {
+    //     h1.innerText = "It's a tie!";
+    // }
+
+    // console.log(maxNumber);
+
+    //h1.innerText = `Player ${maxScoreIndex + 1} wins!`;
+
+    // Move the player with the highest score to the front
+    const playersOrder = [maxScoreIndex, ...Array.from({ length: numberOfPlayers }, (_, i) => i).filter(i => i !== maxScoreIndex)];
+
     
     const gameOverNB = document.createElement('p');
-    gameOverNB.innerText = 'Game over! Here’s how you got on…';
+    gameOverNB.innerText = 'Game over! Here are the results…';
+
 
     popUp.append(h1, gameOverNB)
     
-    for (let i = 1; i <= numberOfPlayers; i++) {
+    // for (let i = 1; i <= numberOfPlayers; i++) {
+    //     const playerScore = document.createElement('div');
+    //     playerScore.classList.add('info');
+
+    //     const player = document.createElement('p')
+    //     player.innerText = 'Player ' + i;
+
+    //     const score = document.createElement('h1')
+    //     score.innerText = playerScores[i - 1] + ' Pairs'; 
+
+    //     if (winners.includes(i)) {
+    //         playerScore.style.background = '#152938';
+    //         player.innerText += '{Winner!}'
+    //         player.style.color = '#fff';
+    //         score.style.color = '#fff';
+    //     } 
+        
+    //     playerScore.append(player,score);
+    //     popUp.append(playerScore); 
+    // }
+    for (const i of playersOrder) {
         const playerScore = document.createElement('div');
         playerScore.classList.add('info');
 
-        const player = document.createElement('p')
-        player.innerText = 'Player ' + i;
+        const player = document.createElement('p');
+        player.innerText = 'Player ' + (i + 1);
 
-        const score = document.createElement('h1')
-        score.innerText = playerScores[i - 1] + ' Pairs'; 
+        const score = document.createElement('h1');
+        score.innerText = playerScores[i] + ' Pairs'; 
 
-
+        if (i === maxScoreIndex) {
+            playerScore.style.background = '#152938';
+            player.innerText += ' {Winner!}';
+            player.style.color = '#fff';
+            score.style.color = '#fff';
+        } 
         
-        playerScore.append(player,score);
+        playerScore.append(player, score);
         popUp.append(playerScore); 
     }
     
+    const btnContainer = document.createElement('div');
+    btnContainer.classList.add('btn-container');
     
+    const popRestartBtn = document.createElement('button');
+    popRestartBtn.classList.add('popup-btn');
+    popRestartBtn.innerText = 'Restart'
+    popRestartBtn.id = 'popup-restart';
     
+    const popNewGameBtn = document.createElement('button');
+    popNewGameBtn.classList.add('popup-btn');
+    popNewGameBtn.innerText = 'Setup New Game';
+    popNewGameBtn.id = 'popup-new-game';
     
+    popUp.append(btnContainer)
+    btnContainer.append(popRestartBtn, popNewGameBtn)
     popupContainer.append(popUp);
     body.append(popupContainer);
     // btnContainer.append(popRestartBtn, popNewGameBtn);
 
-}
+    
+    popupNewGame();
+    popupRestart();
 
+}
 
 const menuRestart = ()=>{
     // const popupRestart = document.getElementById('popup-restart');
