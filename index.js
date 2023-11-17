@@ -762,8 +762,8 @@ const endGameMultiPopup = (numberOfPlayers) => {
     body.append(popupContainer);
 
     // Add event listeners for the buttons
-    popRestartBtn.addEventListener('click', popupRestart);
-    popNewGameBtn.addEventListener('click', popupNewGame);
+    popupRestart();
+    popupNewGame();
 }
 
 
