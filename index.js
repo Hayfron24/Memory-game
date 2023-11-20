@@ -147,7 +147,7 @@ const flipCard = () => {
                 card.querySelector('.card-back').style.transform = 'rotateY(180deg)';
                 flippedCards.push(card);
                 // console.log(numberOfPlayers);
-                 endGameMultiPopup(numberOfPlayers);
+                //  endGameMultiPopup(numberOfPlayers);
 
                 const childNode = document.querySelectorAll('.card-front');
                 const eachChild = Array.from(childNode).map(child => {
