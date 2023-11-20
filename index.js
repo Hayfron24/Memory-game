@@ -147,6 +147,7 @@ const flipCard = () => {
                 card.querySelector('.card-back').style.transform = 'rotateY(180deg)';
                 flippedCards.push(card);
                 // console.log(numberOfPlayers);
+                 endGameMultiPopup(numberOfPlayers);
 
                 const childNode = document.querySelectorAll('.card-front');
                 const eachChild = Array.from(childNode).map(child => {
@@ -269,7 +270,7 @@ const flipCard = () => {
                     }
                 }else if(areAllCardsFlipped()){
                     // alert('multiplayer mode!');
-                    endGameMultiPopup(numberOfPlayers);
+                    endGameMultiPopup();
                 }
             }
         });
@@ -694,7 +695,7 @@ const multiplayerStatus = (numberOfPlayerp) =>{
 
 // }
 
-const endGameMultiPopup = (numberOfPlayers) => {
+const endGameMultiPopup = () => {
     const popupContainer = document.createElement('div');
     popupContainer.classList.add('popup-container');
     
@@ -762,8 +763,8 @@ const endGameMultiPopup = (numberOfPlayers) => {
     body.append(popupContainer);
 
     // Add event listeners for the buttons
-    popupRestart();
     popupNewGame();
+    popupRestart();
 }
 
 
